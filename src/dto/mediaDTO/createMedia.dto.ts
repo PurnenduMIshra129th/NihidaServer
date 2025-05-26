@@ -11,5 +11,4 @@ export const createMediaDTO = [
     .isString()
     .notEmpty()
     .withMessage('Description is required'),
-  body('time').trim().isString().notEmpty().withMessage('Time is required'),
 ]

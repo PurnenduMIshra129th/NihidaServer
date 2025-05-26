@@ -1,8 +1,10 @@
 import * as express from 'express'
 import dbConnect from './config/db'
 import indexRouter from './routes'
+import logMiddleware from './middlewares/logger.middleware'
 const app = express()
 app.use(express.json())
+app.use(logMiddleware)
 app.get('/', (req: express.Request, res: express.Response) => {
   res.send('Hello World')
 })

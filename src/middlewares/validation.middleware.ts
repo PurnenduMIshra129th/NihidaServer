@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import { ValidationChain, validationResult } from 'express-validator'
+import { ErrorResponse } from '../utils/apiResponse'
 
 /**
  * Middleware to validate input requests based on provided validation rules.
@@ -20,14 +21,13 @@ const validateInputs = (validations: ValidationChain[]) => {
       // Check for validation errors
       const errors = validationResult(req)
       if (!errors.isEmpty()) {
-        res.status(400).json({ errors: errors.array() })
-        return
+        return new ErrorResponse(400, errors.array()).send(res)
       }
 
       next()
     } catch (error) {
       console.error('Validation error:', error)
-      res.status(500).json({ error: 'Internal server error during validation' })
+      return new ErrorResponse(500, error).send(res)
     }
   }
 }
