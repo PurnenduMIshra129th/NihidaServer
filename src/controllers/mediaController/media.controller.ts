@@ -10,10 +10,17 @@ export const createMediaController = async (req: Request, res: Response) => {
     if (!req.file) {
       return new ErrorResponse(400, 'Image upload required').send(res)
     }
+    // Define the server address (modify if deployed)
+    const serverAddress = 'http://localhost:3000' // Change this if running on a different port
+    const uploadsFolder = '/uploads/'
+
+    // Generate a public URL for the image
+    const imageUrl = `${serverAddress}${uploadsFolder}${req.file.filename}`
+    console.log(imageUrl)
     const media = new createMediaModel({
       heading: req.body.heading,
       description: req.body.description,
-      imagePath: req.file.path,
+      imagePath: imageUrl,
     })
 
     await media.save()

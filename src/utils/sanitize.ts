@@ -1,4 +1,4 @@
-const sanitize = require('sanitizer')
+import sanitize from 'sanitizer'
 
 const sanitizeBody = (data: { [x: string]: any }) => {
   try {
