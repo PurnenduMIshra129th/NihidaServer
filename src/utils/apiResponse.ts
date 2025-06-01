@@ -15,7 +15,7 @@ class SuccessResponse<T> {
 
   send(res: Response) {
     Logger.logSuccess(this.message, this.data)
-    res.status(200).send(this)
+    res.status(200).json(this)
   }
 }
 
@@ -38,7 +38,7 @@ class ErrorResponse {
   send(res: Response) {
     console.log(this.errorCode, this.errorMessage, this.error)
     Logger.logError(this.errorCode, this.errorMessage, this.error)
-    res.status(200).send(this)
+    res.status(200).json(this)
   }
 }
 

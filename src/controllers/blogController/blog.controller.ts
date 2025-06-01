@@ -1,14 +1,14 @@
 // import sanitizeBody from '../middlewares/sanitizeBody';
 import { Request, Response } from 'express'
-import { createMediaModel } from '../../models/mediaModels/createMedia.model'
 import { ErrorResponse, SuccessResponse } from '../../utils/apiResponse'
 import mongoose from 'mongoose'
-import { updateMediaService } from '../../services/mediaServices/updateMedia.service'
 import ErrorCodes from '../../utils/errorCodes'
-import { createMediaService } from '../../services/mediaServices/createMedia.service'
-import { deleteMediaService } from '../../services/mediaServices/deleteMedia.Service'
+import { createBlogService } from '../../services/blogServices/createBlog.service'
+import { updateBlogService } from '../../services/blogServices/updateBlog.service'
+import { deleteBlogService } from '../../services/blogServices/deleteBlog.service'
+import { createBlogModel } from '../../models/blogModels/createBlog.model'
 
-export const createMediaController = async (req: Request, res: Response) => {
+export const createBlogController = async (req: Request, res: Response) => {
   try {
     // const sanitizedData = sanitizeBody(req.body);
     if (!req.file) {
@@ -21,7 +21,7 @@ export const createMediaController = async (req: Request, res: Response) => {
       description,
       file,
     }
-    const result = await createMediaService(argObj)
+    const result = await createBlogService(argObj)
     if (result instanceof SuccessResponse && result.statusCode === 1) {
       return new SuccessResponse(result.message, result.data).send(res)
     } else if (result instanceof ErrorResponse) {
@@ -35,7 +35,7 @@ export const createMediaController = async (req: Request, res: Response) => {
   }
 }
 
-export const updateMediaController = async (req: Request, res: Response) => {
+export const updateBlogController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
     const { heading, description } = req.body
@@ -49,7 +49,7 @@ export const updateMediaController = async (req: Request, res: Response) => {
       description,
       file,
     }
-    const result = await updateMediaService(argObj)
+    const result = await updateBlogService(argObj)
     if (result instanceof SuccessResponse && result.statusCode === 1) {
       return new SuccessResponse(result.message, result.data).send(res)
     } else if (result instanceof ErrorResponse) {
@@ -63,13 +63,13 @@ export const updateMediaController = async (req: Request, res: Response) => {
   }
 }
 
-export const deleteMediaController = async (req: Request, res: Response) => {
+export const deleteBlogController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
     const argObj = {
       id,
     }
-    const result = await deleteMediaService(argObj)
+    const result = await deleteBlogService(argObj)
     if (result instanceof SuccessResponse && result.statusCode === 1) {
       return new SuccessResponse(result.message, result.data).send(res)
     } else if (result instanceof ErrorResponse) {
@@ -83,10 +83,10 @@ export const deleteMediaController = async (req: Request, res: Response) => {
   }
 }
 
-export const getAllMediaController = async (_: Request, res: Response) => {
+export const getAllBlogsController = async (_: Request, res: Response) => {
   try {
-    const mediaList = await createMediaModel.find()
-    return new SuccessResponse('Media retrieved successfully', mediaList).send(
+    const blogList = await createBlogModel.find()
+    return new SuccessResponse('Blogs retrieved successfully', blogList).send(
       res,
     )
   } catch (error) {
@@ -94,20 +94,20 @@ export const getAllMediaController = async (_: Request, res: Response) => {
   }
 }
 
-export const getMediaByIdController = async (req: Request, res: Response) => {
+export const getBlogByIdController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return new ErrorResponse(400, 'Invalid media ID format').send(res)
+      return new ErrorResponse(400, 'Invalid blog ID format').send(res)
     }
 
-    const media = await createMediaModel.findById(id)
-    if (!media) {
-      return new ErrorResponse(404, 'Media not found').send(res)
+    const blog = await createBlogModel.findById(id)
+    if (!blog) {
+      return new ErrorResponse(404, 'Blog not found').send(res)
     }
 
-    return new SuccessResponse('Media retrieved successfully', media).send(res)
+    return new SuccessResponse('Blog retrieved successfully', blog).send(res)
   } catch (error) {
     return new ErrorResponse(500, error).send(res)
   }

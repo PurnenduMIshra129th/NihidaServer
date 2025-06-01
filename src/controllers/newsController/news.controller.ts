@@ -1,14 +1,14 @@
 // import sanitizeBody from '../middlewares/sanitizeBody';
 import { Request, Response } from 'express'
-import { createMediaModel } from '../../models/mediaModels/createMedia.model'
 import { ErrorResponse, SuccessResponse } from '../../utils/apiResponse'
 import mongoose from 'mongoose'
-import { updateMediaService } from '../../services/mediaServices/updateMedia.service'
 import ErrorCodes from '../../utils/errorCodes'
-import { createMediaService } from '../../services/mediaServices/createMedia.service'
-import { deleteMediaService } from '../../services/mediaServices/deleteMedia.Service'
+import { createNewsModel } from '../../models/newsModels/createNews.model'
+import { createNewsService } from '../../services/newsServices/createNews.service'
+import { deleteNewsService } from '../../services/newsServices/deleteNews.service'
+import { updateNewsService } from '../../services/newsServices/updateNews.service'
 
-export const createMediaController = async (req: Request, res: Response) => {
+export const createNewsController = async (req: Request, res: Response) => {
   try {
     // const sanitizedData = sanitizeBody(req.body);
     if (!req.file) {
@@ -21,7 +21,7 @@ export const createMediaController = async (req: Request, res: Response) => {
       description,
       file,
     }
-    const result = await createMediaService(argObj)
+    const result = await createNewsService(argObj)
     if (result instanceof SuccessResponse && result.statusCode === 1) {
       return new SuccessResponse(result.message, result.data).send(res)
     } else if (result instanceof ErrorResponse) {
@@ -35,7 +35,7 @@ export const createMediaController = async (req: Request, res: Response) => {
   }
 }
 
-export const updateMediaController = async (req: Request, res: Response) => {
+export const updateNewsController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
     const { heading, description } = req.body
@@ -49,7 +49,7 @@ export const updateMediaController = async (req: Request, res: Response) => {
       description,
       file,
     }
-    const result = await updateMediaService(argObj)
+    const result = await updateNewsService(argObj)
     if (result instanceof SuccessResponse && result.statusCode === 1) {
       return new SuccessResponse(result.message, result.data).send(res)
     } else if (result instanceof ErrorResponse) {
@@ -63,13 +63,13 @@ export const updateMediaController = async (req: Request, res: Response) => {
   }
 }
 
-export const deleteMediaController = async (req: Request, res: Response) => {
+export const deleteNewsController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
     const argObj = {
       id,
     }
-    const result = await deleteMediaService(argObj)
+    const result = await deleteNewsService(argObj)
     if (result instanceof SuccessResponse && result.statusCode === 1) {
       return new SuccessResponse(result.message, result.data).send(res)
     } else if (result instanceof ErrorResponse) {
@@ -83,10 +83,10 @@ export const deleteMediaController = async (req: Request, res: Response) => {
   }
 }
 
-export const getAllMediaController = async (_: Request, res: Response) => {
+export const getAllNewsController = async (_: Request, res: Response) => {
   try {
-    const mediaList = await createMediaModel.find()
-    return new SuccessResponse('Media retrieved successfully', mediaList).send(
+    const NewsList = await createNewsModel.find()
+    return new SuccessResponse('News retrieved successfully', NewsList).send(
       res,
     )
   } catch (error) {
@@ -94,20 +94,20 @@ export const getAllMediaController = async (_: Request, res: Response) => {
   }
 }
 
-export const getMediaByIdController = async (req: Request, res: Response) => {
+export const getNewsByIdController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return new ErrorResponse(400, 'Invalid media ID format').send(res)
+      return new ErrorResponse(400, 'Invalid News ID format').send(res)
     }
 
-    const media = await createMediaModel.findById(id)
-    if (!media) {
-      return new ErrorResponse(404, 'Media not found').send(res)
+    const news = await createNewsModel.findById(id)
+    if (!news) {
+      return new ErrorResponse(404, 'News not found').send(res)
     }
 
-    return new SuccessResponse('Media retrieved successfully', media).send(res)
+    return new SuccessResponse('News retrieved successfully', news).send(res)
   } catch (error) {
     return new ErrorResponse(500, error).send(res)
   }
