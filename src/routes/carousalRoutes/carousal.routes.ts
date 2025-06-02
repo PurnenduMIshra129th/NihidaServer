@@ -11,19 +11,19 @@ import {
 const carousalRouter = Router()
 
 carousalRouter.post(
-  '/createCarousal',
+  '/createCarousel',
   uploadMiddleware(uploadSubFolder.carousalDir),
   createCarousalController,
 )
 carousalRouter.post(
-  '/updateCarousal/:id',
+  '/updateCarousel/:id',
   uploadMiddleware(uploadSubFolder.carousalDir),
   updateCarousalController,
 )
-carousalRouter.delete('/deleteCarousal/:id', deleteCarousalController)
+carousalRouter.delete('/deleteCarousel/:id', deleteCarousalController)
 
-carousalRouter.get('/getAllCarousal', getAllCarousalsController)
+carousalRouter.get('/getAllCarousel', getAllCarousalsController)
 
-carousalRouter.get('/getCarousalById/:id', getCarousalByIdController)
+carousalRouter.get('/getCarouselById/:id', getCarousalByIdController)
 
 export default carousalRouter

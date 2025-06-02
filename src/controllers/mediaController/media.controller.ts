@@ -27,7 +27,7 @@ export const createMediaController = async (req: Request, res: Response) => {
     } else if (result instanceof ErrorResponse) {
       return new ErrorResponse(
         result.errorCode as keyof typeof ErrorCodes,
-        result.errorMessage,
+        result.error,
       ).send(res)
     }
   } catch (error) {
@@ -58,7 +58,7 @@ export const updateMediaController = async (req: Request, res: Response) => {
     } else if (result instanceof ErrorResponse) {
       return new ErrorResponse(
         result.errorCode as keyof typeof ErrorCodes,
-        result.errorMessage,
+        result.error,
       ).send(res)
     }
   } catch (error) {
@@ -81,7 +81,7 @@ export const deleteMediaController = async (req: Request, res: Response) => {
     } else if (result instanceof ErrorResponse) {
       return new ErrorResponse(
         result.errorCode as keyof typeof ErrorCodes,
-        result.errorMessage,
+        result.error,
       ).send(res)
     }
   } catch (error) {

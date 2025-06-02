@@ -27,7 +27,7 @@ export const createBlogController = async (req: Request, res: Response) => {
     } else if (result instanceof ErrorResponse) {
       return new ErrorResponse(
         result.errorCode as keyof typeof ErrorCodes,
-        result.errorMessage,
+        result.error,
       ).send(res)
     }
   } catch (error) {
@@ -58,7 +58,7 @@ export const updateBlogController = async (req: Request, res: Response) => {
     } else if (result instanceof ErrorResponse) {
       return new ErrorResponse(
         result.errorCode as keyof typeof ErrorCodes,
-        result.errorMessage,
+        result.error,
       ).send(res)
     }
   } catch (error) {
@@ -81,7 +81,7 @@ export const deleteBlogController = async (req: Request, res: Response) => {
     } else if (result instanceof ErrorResponse) {
       return new ErrorResponse(
         result.errorCode as keyof typeof ErrorCodes,
-        result.errorMessage,
+        result.error,
       ).send(res)
     }
   } catch (error) {
