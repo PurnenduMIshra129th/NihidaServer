@@ -10,4 +10,6 @@ export const uploadSubFolder = {
   blogDir: `/blogUploads/`,
   newsDir: `/newsUploads/`,
   productAndServiceDir: `/productAndServiceUploads/`,
+  videoDir: `/videoUploads/`,
+  carousalDir: `/carousalUploads/`,
 }

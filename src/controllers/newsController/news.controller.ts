@@ -38,6 +38,9 @@ export const createNewsController = async (req: Request, res: Response) => {
 export const updateNewsController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return new ErrorResponse(400, 'Invalid News ID format').send(res)
+    }
     const { heading, description } = req.body
     let file = undefined
     if (req.file) {
@@ -66,6 +69,9 @@ export const updateNewsController = async (req: Request, res: Response) => {
 export const deleteNewsController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return new ErrorResponse(400, 'Invalid News ID format').send(res)
+    }
     const argObj = {
       id,
     }
@@ -86,9 +92,13 @@ export const deleteNewsController = async (req: Request, res: Response) => {
 export const getAllNewsController = async (_: Request, res: Response) => {
   try {
     const NewsList = await createNewsModel.find()
-    return new SuccessResponse('News retrieved successfully', NewsList).send(
-      res,
-    )
+    if (NewsList?.length > 0) {
+      return new SuccessResponse('News retrieved successfully', NewsList).send(
+        res,
+      )
+    } else {
+      return new ErrorResponse(404, 'News not found').send(res)
+    }
   } catch (error) {
     return new ErrorResponse(500, error).send(res)
   }

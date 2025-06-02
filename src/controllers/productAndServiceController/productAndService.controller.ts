@@ -44,6 +44,11 @@ export const updateProductAndServicesController = async (
 ) => {
   try {
     const { id } = req.params
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return new ErrorResponse(400, 'Invalid ProductAndService ID format').send(
+        res,
+      )
+    }
     const { heading, description } = req.body
     let file = undefined
     if (req.file) {
@@ -75,6 +80,12 @@ export const deleteProductAndServicesController = async (
 ) => {
   try {
     const { id } = req.params
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return new ErrorResponse(400, 'Invalid ProductAndService ID format').send(
+        res,
+      )
+    }
     const argObj = {
       id,
     }
@@ -98,10 +109,14 @@ export const getAllProductAndServicesController = async (
 ) => {
   try {
     const ProductAndServicesList = await createProductAndServiceModel.find()
-    return new SuccessResponse(
-      'ProductAndServices retrieved successfully',
-      ProductAndServicesList,
-    ).send(res)
+    if (ProductAndServicesList?.length > 0) {
+      return new SuccessResponse(
+        'ProductAndServices retrieved successfully',
+        ProductAndServicesList,
+      ).send(res)
+    } else {
+      return new ErrorResponse(404, 'ProductAndServices not found').send(res)
+    }
   } catch (error) {
     return new ErrorResponse(500, error).send(res)
   }

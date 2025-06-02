@@ -3,25 +3,26 @@ import { Request, Response } from 'express'
 import { ErrorResponse, SuccessResponse } from '../../utils/apiResponse'
 import mongoose from 'mongoose'
 import ErrorCodes from '../../utils/errorCodes'
-import { createBlogService } from '../../services/blogServices/createBlog.service'
-import { updateBlogService } from '../../services/blogServices/updateBlog.service'
-import { deleteBlogService } from '../../services/blogServices/deleteBlog.service'
-import { createBlogModel } from '../../models/blogModels/createBlog.model'
+import { createVideoService } from '../../services/videoServices/createVideo.service'
+import { updateVideoService } from '../../services/videoServices/updateVideo.service'
+import { deleteVideoService } from '../../services/videoServices/deleteVideo.service'
+import { createVideoModel } from '../../models/videoModels/video.model'
 
-export const createBlogController = async (req: Request, res: Response) => {
+export const createVideoController = async (req: Request, res: Response) => {
   try {
     // const sanitizedData = sanitizeBody(req.body);
     if (!req.file) {
       return new ErrorResponse(400, 'Image upload required').send(res)
     }
-    const { heading, description } = req?.body
+    const { heading, description, videoUrl } = req?.body
     const file = req?.file?.filename
     const argObj = {
       heading,
       description,
+      videoUrl,
       file,
     }
-    const result = await createBlogService(argObj)
+    const result = await createVideoService(argObj)
     if (result instanceof SuccessResponse && result.statusCode === 1) {
       return new SuccessResponse(result.message, result.data).send(res)
     } else if (result instanceof ErrorResponse) {
@@ -35,13 +36,13 @@ export const createBlogController = async (req: Request, res: Response) => {
   }
 }
 
-export const updateBlogController = async (req: Request, res: Response) => {
+export const updateVideoController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return new ErrorResponse(400, 'Invalid blog ID format').send(res)
+      return new ErrorResponse(400, 'Invalid Video ID format').send(res)
     }
-    const { heading, description } = req.body
+    const { heading, description, videoUrl } = req.body
     let file = undefined
     if (req.file) {
       file = req.file?.filename
@@ -50,9 +51,10 @@ export const updateBlogController = async (req: Request, res: Response) => {
       id,
       heading,
       description,
+      videoUrl,
       file,
     }
-    const result = await updateBlogService(argObj)
+    const result = await updateVideoService(argObj)
     if (result instanceof SuccessResponse && result.statusCode === 1) {
       return new SuccessResponse(result.message, result.data).send(res)
     } else if (result instanceof ErrorResponse) {
@@ -66,22 +68,22 @@ export const updateBlogController = async (req: Request, res: Response) => {
   }
 }
 
-export const deleteBlogController = async (req: Request, res: Response) => {
+export const deleteVideoController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return new ErrorResponse(400, 'Invalid blog ID format').send(res)
+      return new ErrorResponse(400, 'Invalid Video ID format').send(res)
     }
     const argObj = {
       id,
     }
-    const result = await deleteBlogService(argObj)
+    const result = await deleteVideoService(argObj)
     if (result instanceof SuccessResponse && result.statusCode === 1) {
       return new SuccessResponse(result.message, result.data).send(res)
     } else if (result instanceof ErrorResponse) {
       return new ErrorResponse(
         result.errorCode as keyof typeof ErrorCodes,
-        result.errorMessage,
+        result.error,
       ).send(res)
     }
   } catch (error) {
@@ -89,35 +91,36 @@ export const deleteBlogController = async (req: Request, res: Response) => {
   }
 }
 
-export const getAllBlogsController = async (_: Request, res: Response) => {
+export const getAllVideoController = async (_: Request, res: Response) => {
   try {
-    const blogList = await createBlogModel.find()
-    if (blogList?.length > 0) {
-      return new SuccessResponse('Blogs retrieved successfully', blogList).send(
-        res,
-      )
+    const VideoList = await createVideoModel.find()
+    if (VideoList && VideoList.length > 0) {
+      return new SuccessResponse(
+        'Video retrieved successfully',
+        VideoList,
+      ).send(res)
     } else {
-      return new ErrorResponse(404, 'Blogs not found').send(res)
+      return new ErrorResponse(404, 'Video not found').send(res)
     }
   } catch (error) {
     return new ErrorResponse(500, error).send(res)
   }
 }
 
-export const getBlogByIdController = async (req: Request, res: Response) => {
+export const getVideoByIdController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return new ErrorResponse(400, 'Invalid blog ID format').send(res)
+      return new ErrorResponse(400, 'Invalid Video ID format').send(res)
     }
 
-    const blog = await createBlogModel.findById(id)
-    if (!blog) {
-      return new ErrorResponse(404, 'Blog not found').send(res)
+    const video = await createVideoModel.findById(id)
+    if (!video) {
+      return new ErrorResponse(404, 'Video not found').send(res)
     }
 
-    return new SuccessResponse('Blog retrieved successfully', blog).send(res)
+    return new SuccessResponse('Video retrieved successfully', video).send(res)
   } catch (error) {
     return new ErrorResponse(500, error).send(res)
   }

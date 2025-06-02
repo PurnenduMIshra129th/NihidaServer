@@ -38,6 +38,9 @@ export const createMediaController = async (req: Request, res: Response) => {
 export const updateMediaController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return new ErrorResponse(400, 'Invalid media ID format').send(res)
+    }
     const { heading, description } = req.body
     let file = undefined
     if (req.file) {
@@ -66,6 +69,9 @@ export const updateMediaController = async (req: Request, res: Response) => {
 export const deleteMediaController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return new ErrorResponse(400, 'Invalid media ID format').send(res)
+    }
     const argObj = {
       id,
     }
@@ -86,9 +92,14 @@ export const deleteMediaController = async (req: Request, res: Response) => {
 export const getAllMediaController = async (_: Request, res: Response) => {
   try {
     const mediaList = await createMediaModel.find()
-    return new SuccessResponse('Media retrieved successfully', mediaList).send(
-      res,
-    )
+    if (mediaList?.length > 0) {
+      return new SuccessResponse(
+        'Media retrieved successfully',
+        mediaList,
+      ).send(res)
+    } else {
+      return new ErrorResponse(404, 'Media not found').send(res)
+    }
   } catch (error) {
     return new ErrorResponse(500, error).send(res)
   }
