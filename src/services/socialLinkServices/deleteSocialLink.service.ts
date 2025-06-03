@@ -16,7 +16,14 @@ export const deleteSocialLinkService = async (data: IDeleteSocialLink) => {
     if (!socialLink) {
       return sendErrorData(404, 'SocialLink not found')
     }
+    const existingCount = await createSocialLinkModel.countDocuments()
 
+    if (existingCount == 1) {
+      return sendErrorData(
+        400,
+        'Only one SocialLink entry is Present which cannot be deleted',
+      )
+    }
     // Delete from database first
     await createSocialLinkModel.findByIdAndDelete(id)
 
