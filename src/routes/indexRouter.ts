@@ -6,6 +6,7 @@ import productAndServiceRouter from './productAndServiceRoutes/productAndService
 import videoRouter from './videoRoutes/video.routes'
 import carousalRouter from './carousalRoutes/carousal.routes'
 import socialLinkRouter from './socialLinkRoutes/socialLink.routes'
+import authenticationRouter from './authenticationRoutes/authentication.routes'
 
 const indexRouter = Router()
 indexRouter.use('/media', mediaRouter)
@@ -15,5 +16,6 @@ indexRouter.use('/productAndService', productAndServiceRouter)
 indexRouter.use('/video', videoRouter)
 indexRouter.use('/carousel', carousalRouter)
 indexRouter.use('/socialLink', socialLinkRouter)
+indexRouter.use('/authentication', authenticationRouter)
 
 export default indexRouter

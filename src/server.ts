@@ -3,14 +3,20 @@ import dbConnect from './config/db'
 import indexRouter from './routes/indexRouter'
 import logMiddleware from './middlewares/logger.middleware'
 import cors from 'cors'
+import { authMiddleware } from './middlewares/auth.middleware'
+import { baseUrl, currentEnv, port } from './utils/constant'
+import { adminMiddleware } from './middlewares/admin.middleware'
+import { getCorsTargetEndpoint } from './utils/utils'
 
 const app = express()
 app.use('/uploads', express.static('uploads'))
 app.use(express.json())
 app.use(logMiddleware)
+app.use(authMiddleware)
+app.use(adminMiddleware)
 app.use(
   cors({
-    origin: ['http://localhost:5000', 'https://nihidafrontend.onrender.com'],
+    origin: getCorsTargetEndpoint(currentEnv),
   }),
 )
 app.get('/', (req: express.Request, res: express.Response) => {
@@ -18,9 +24,9 @@ app.get('/', (req: express.Request, res: express.Response) => {
 })
 
 dbConnect()
-app.use('/api', indexRouter)
+app.use(baseUrl, indexRouter)
 
-const PORT = process.env.PORT || 3000
+const PORT = port
 app.listen(PORT, () => {
-  console.log(`Server is running in http://localhost:${PORT}`)
+  console.log(`Server is running in port:${PORT}`)
 })

@@ -1,4 +1,12 @@
-import { serverAddress, uploadsFolder } from './constant'
+import {
+  baseUrl,
+  corsEndpoints,
+  currentEnv,
+  nodeENV,
+  serverURL,
+  uploadsFolder,
+} from './constant'
+import { Request } from 'express'
 import path from 'path'
 import fs from 'fs'
 
@@ -6,6 +14,8 @@ export const constructImagePath = (
   subFolder: string,
   fileName: string | undefined,
 ) => {
+  const serverAddress = getServerTargetEndpoint(currentEnv)
+
   let imagePath = ''
   if (serverAddress && uploadsFolder && subFolder && fileName) {
     const constructPath = path.join(uploadsFolder, subFolder, fileName)
@@ -62,4 +72,26 @@ export const deleteFileIfExists = (localFilePath: string): void => {
       }
     })
   })
+}
+
+export const extractToken = (req: Request): string | null => {
+  const authHeader = req.headers.authorization
+  return authHeader?.startsWith('Bearer ') ? authHeader.split(' ')[1] : null
+}
+
+export const nonTokenizedRoutes = [
+  '/favicon.ico',
+  `${baseUrl}/authentication/login`,
+  `${baseUrl}/authentication/signUp`,
+]
+export const nonAdminRoutes = [
+  '/favicon.ico',
+  `${baseUrl}/authentication/login`,
+  `${baseUrl}/authentication/signUp`,
+]
+export const getCorsTargetEndpoint = (env: keyof typeof nodeENV): string[] => {
+  return corsEndpoints?.[env] || []
+}
+export const getServerTargetEndpoint = (env: keyof typeof nodeENV): string => {
+  return serverURL?.[env] || ''
 }

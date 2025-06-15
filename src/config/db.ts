@@ -1,20 +1,23 @@
 import mongoose from 'mongoose'
 import * as dotenv from 'dotenv'
+import { dbURL } from '../utils/constant'
 dotenv.config()
 
-const dbConnect = async () => {
-  try {
-    const dbURL = process.env.DB_URL
-    if (!dbURL)
-      throw new Error('Database URL not found in environment variables!')
+const dbConnect = async (): Promise<void> => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const connectionString = dbURL
+      if (!connectionString) {
+        throw new Error('Database URL not found in environment variables!')
+      }
 
-    await mongoose.connect(dbURL)
-
-    console.log('Database connected successfully')
-  } catch (error) {
-    console.error('Database connection error:', error)
-    process.exit(1)
-  }
+      await mongoose.connect(connectionString)
+      console.log('Database connected successfully')
+      resolve()
+    } catch (error) {
+      reject(error)
+    }
+  })
 }
 
 export default dbConnect
