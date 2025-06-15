@@ -11,14 +11,14 @@ import { getCorsTargetEndpoint } from './utils/utils'
 const app = express()
 app.use('/uploads', express.static('uploads'))
 app.use(express.json())
-app.use(logMiddleware)
-app.use(authMiddleware)
-app.use(adminMiddleware)
 app.use(
   cors({
     origin: getCorsTargetEndpoint(currentEnv),
   }),
 )
+app.use(logMiddleware)
+app.use(authMiddleware)
+app.use(adminMiddleware)
 app.get('/', (req: express.Request, res: express.Response) => {
   res.send('Nihida API is running')
 })

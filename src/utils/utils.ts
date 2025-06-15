@@ -83,11 +83,25 @@ export const nonTokenizedRoutes = [
   '/favicon.ico',
   `${baseUrl}/authentication/login`,
   `${baseUrl}/authentication/signUp`,
+  `${baseUrl}/blog/getAllBlog`,
+  `${baseUrl}/carousal/getAllCarousal`,
+  `${baseUrl}/media/getAllMedia`,
+  `${baseUrl}/news/getAllNews`,
+  `${baseUrl}/productAndService/getAllProductAndService`,
+  `${baseUrl}/socialLink/getAllSocialLink`,
+  `${baseUrl}/video/getAllVideo`,
 ]
 export const nonAdminRoutes = [
   '/favicon.ico',
   `${baseUrl}/authentication/login`,
   `${baseUrl}/authentication/signUp`,
+  `${baseUrl}/blog/getAllBlog`,
+  `${baseUrl}/carousal/getAllCarousal`,
+  `${baseUrl}/media/getAllMedia`,
+  `${baseUrl}/news/getAllNews`,
+  `${baseUrl}/productAndService/getAllProductAndService`,
+  `${baseUrl}/socialLink/getAllSocialLink`,
+  `${baseUrl}/video/getAllVideo`,
 ]
 export const getCorsTargetEndpoint = (env: keyof typeof nodeENV): string[] => {
   return corsEndpoints?.[env] || []
