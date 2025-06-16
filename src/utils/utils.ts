@@ -78,7 +78,16 @@ export const extractToken = (req: Request): string | null => {
   const authHeader = req.headers.authorization
   return authHeader?.startsWith('Bearer ') ? authHeader.split(' ')[1] : null
 }
+export const matchRoute = (pattern: string, actual: string): boolean => {
+  const patternParts = pattern.split('/')
+  const actualParts = actual.split('/')
 
+  if (patternParts.length !== actualParts.length) return false
+
+  return patternParts.every((part, index) => {
+    return part === actualParts[index] || part.startsWith(':')
+  })
+}
 export const nonTokenizedRoutes = [
   '/favicon.ico',
   `${baseUrl}/authentication/login`,
@@ -96,9 +105,12 @@ export const nonAdminRoutes = [
   `${baseUrl}/authentication/login`,
   `${baseUrl}/authentication/signUp`,
   `${baseUrl}/blog/getAllBlog`,
+  `${baseUrl}/blog/getBlogById/:id`,
   `${baseUrl}/carousal/getAllCarousal`,
   `${baseUrl}/media/getAllMedia`,
+  `${baseUrl}/media/getMediaById/:id`,
   `${baseUrl}/news/getAllNews`,
+  `${baseUrl}/news/getNewsById/:id`,
   `${baseUrl}/productAndService/getAllProductAndService`,
   `${baseUrl}/socialLink/getAllSocialLink`,
   `${baseUrl}/video/getAllVideo`,

@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 import { Request, Response, NextFunction } from 'express'
-import { extractToken, nonAdminRoutes } from '../utils/utils'
+import { extractToken, matchRoute, nonAdminRoutes } from '../utils/utils'
 import { ErrorResponse } from '../utils/apiResponse'
 import { jwtSecret, role } from '../utils/constant'
 
@@ -9,11 +9,11 @@ export const adminMiddleware = (
   res: Response,
   next: NextFunction,
 ) => {
-  const { path } = req
+  const isNonAdminRoute = nonAdminRoutes.some((routePattern) =>
+    matchRoute(routePattern, req.path),
+  )
 
-  if (nonAdminRoutes.includes(path)) {
-    return next()
-  }
+  if (isNonAdminRoute) return next()
 
   const token = extractToken(req)
 
