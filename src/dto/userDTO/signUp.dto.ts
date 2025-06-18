@@ -1,7 +1,7 @@
 import { body } from 'express-validator'
 
 export const signUpDTO = [
-  body('name').trim().isString().notEmpty().withMessage('Name is required'),
+  body('userName').trim().isString().notEmpty().withMessage('Name is required'),
   body('email').trim().isString().notEmpty().withMessage('Email is required'),
   body('role')
     .trim()

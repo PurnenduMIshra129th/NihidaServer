@@ -14,6 +14,9 @@ app.use(express.json())
 app.use(
   cors({
     origin: getCorsTargetEndpoint(currentEnv),
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
   }),
 )
 app.use(logMiddleware)

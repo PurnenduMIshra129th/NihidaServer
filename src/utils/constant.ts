@@ -5,7 +5,7 @@ dotenv.config()
 export const jwtSecret = process.env.JWT_SECRET
 export const dbURL = process.env.DB_URL
 export const encryption_key = process.env.ENCRYPTION_KEY
-export const currentEnv: keyof typeof nodeENV = 'local'
+export const currentEnv: keyof typeof nodeENV = 'test'
 
 export const port = 3000
 export const baseUrl = '/NIHIDA'

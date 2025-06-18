@@ -27,7 +27,7 @@ export const loginController = async (req: Request, res: Response) => {
 
 export const signUpController = async (req: Request, res: Response) => {
   try {
-    const { name, email, password, role } = req.body
+    const { userName: name, email, password, role } = req.body
     const argObj = {
       name,
       email,
