@@ -20,9 +20,9 @@ app.use(
   }),
 )
 app.use(logMiddleware)
+app.use('/uploads', express.static('uploads'))
 app.use(authMiddleware)
 app.use(adminMiddleware)
-app.use('/uploads', express.static('uploads'))
 app.use(express.json())
 app.get('/', (req: express.Request, res: express.Response) => {
   res.send('Nihida API is running')
