@@ -1,20 +1,19 @@
 import {
   baseUrl,
-  corsEndpoints,
   currentEnv,
-  nodeENV,
-  serverURL,
+  environmentConfig,
   uploadsFolder,
 } from './constant'
 import { Request } from 'express'
 import path from 'path'
 import fs from 'fs'
+import { EnvironmentConfig, EnvKey } from '../types/utils/utils.types'
 
 export const constructImagePath = (
   subFolder: string,
   fileName: string | undefined,
 ) => {
-  const serverAddress = getServerTargetEndpoint(currentEnv)
+  const serverAddress = getEnvValue(currentEnv, 'serverURL')
 
   let imagePath = ''
   if (serverAddress && uploadsFolder && subFolder && fileName) {
@@ -88,6 +87,13 @@ export const matchRoute = (pattern: string, actual: string): boolean => {
     return part === actualParts[index] || part.startsWith(':')
   })
 }
+export const getEnvValue = <T extends keyof EnvironmentConfig>(
+  env: EnvKey,
+  key: T,
+): EnvironmentConfig[T] => {
+  return environmentConfig?.[env]?.[key]
+}
+
 export const nonTokenizedRoutes = [
   '/favicon.ico',
   `${baseUrl}/authentication/login`,
@@ -115,9 +121,3 @@ export const nonAdminRoutes = [
   `${baseUrl}/socialLink/getAllSocialLink`,
   `${baseUrl}/video/getAllVideo`,
 ]
-export const getCorsTargetEndpoint = (env: keyof typeof nodeENV): string[] => {
-  return corsEndpoints?.[env] || []
-}
-export const getServerTargetEndpoint = (env: keyof typeof nodeENV): string => {
-  return serverURL?.[env] || ''
-}

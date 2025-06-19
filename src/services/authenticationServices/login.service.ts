@@ -9,7 +9,7 @@ export const loginService = async (data: ILoginUser) => {
     const user = await createUserModel.findOne({ email })
 
     if (!user || !(await comparePasswords(password, user.password))) {
-      return sendErrorData(400, 'Invalid credentials')
+      return sendErrorData(400, 'Passwords do not match or user not found')
     }
 
     const token = generateToken(user._id.toString(), user.role)

@@ -1,12 +1,14 @@
 import mongoose from 'mongoose'
 import * as dotenv from 'dotenv'
-import { dbURL } from '../utils/constant'
+import { currentEnv, dbURL } from '../utils/constant'
+import { getEnvValue } from '../utils/utils'
 dotenv.config()
 
 const dbConnect = async (): Promise<void> => {
   return new Promise(async (resolve, reject) => {
     try {
-      const connectionString = dbURL
+      const connectionString =
+        getEnvValue(currentEnv, 'databaseConnectionString') || dbURL
       if (!connectionString) {
         throw new Error('Database URL not found in environment variables!')
       }

@@ -6,14 +6,16 @@ import cors from 'cors'
 import { authMiddleware } from './middlewares/auth.middleware'
 import { baseUrl, currentEnv, port } from './utils/constant'
 import { adminMiddleware } from './middlewares/admin.middleware'
-import { getCorsTargetEndpoint } from './utils/utils'
+import { getEnvValue } from './utils/utils'
+import { initializeAdmin } from './config/authentication'
 
 const app = express()
+const corsTargetEndpoint = getEnvValue(currentEnv, 'corsEndpoints')
 app.use('/uploads', express.static('uploads'))
 app.use(express.json())
 app.use(
   cors({
-    origin: getCorsTargetEndpoint(currentEnv),
+    origin: corsTargetEndpoint,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
@@ -27,9 +29,11 @@ app.get('/', (req: express.Request, res: express.Response) => {
 })
 
 dbConnect()
+initializeAdmin()
 app.use(baseUrl, indexRouter)
 
 const PORT = port
 app.listen(PORT, () => {
+  console.log('Current environment:', currentEnv)
   console.log(`Server is running in port:${PORT}`)
 })
