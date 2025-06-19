@@ -3,11 +3,11 @@ import path from 'path'
 import { EnvKey, EnvironmentConfig } from '../types/utils/utils.types'
 dotenv.config()
 
-export const jwtSecret = process.env.JWT_SECRET
-export const dbURL = process.env.DB_URL
-export const encryption_key = process.env.ENCRYPTION_KEY
-export const adminEmail = process.env.ADMIN_EMAIL
-export const adminPassword = process.env.ADMIN_PASSWORD
+export const jwtSecret = process.env.JWT_SECRET || ''
+export const dbURL = process.env.DB_URL || ''
+export const encryption_key = process.env.ENCRYPTION_KEY || ''
+export const adminEmail = process.env.ADMIN_EMAIL || ''
+export const adminPassword = process.env.ADMIN_PASSWORD || ''
 export const jwtExpiration = '1h'
 export const currentEnv: keyof typeof nodeENV = 'test'
 
