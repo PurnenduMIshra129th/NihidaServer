@@ -11,8 +11,6 @@ import { initializeAdmin } from './config/authentication'
 
 const app = express()
 const corsTargetEndpoint = getEnvValue(currentEnv, 'corsEndpoints')
-app.use('/uploads', express.static('uploads'))
-app.use(express.json())
 app.use(
   cors({
     origin: corsTargetEndpoint,
@@ -24,6 +22,8 @@ app.use(
 app.use(logMiddleware)
 app.use(authMiddleware)
 app.use(adminMiddleware)
+app.use('/uploads', express.static('uploads'))
+app.use(express.json())
 app.get('/', (req: express.Request, res: express.Response) => {
   res.send('Nihida API is running')
 })

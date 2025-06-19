@@ -33,7 +33,11 @@ class ErrorResponse {
     this.errorCode = errorInfo.code
     this.errorMessage = errorInfo.message
     this.shortHand = errorInfo.shortHand
-    this.error = error
+    if (error instanceof Error && typeof error.message === 'string') {
+      this.error = error.message
+    } else {
+      this.error = error
+    }
   }
   send(res: Response) {
     console.log(this.errorCode, this.errorMessage, this.error)
