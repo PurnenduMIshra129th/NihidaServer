@@ -1,0 +1,43 @@
+import { sendErrorData, sendSuccessData } from '../../utils/apiResponse'
+import { deleteFileIfExists } from '../../utils/utils'
+import { IDeleteFocusActivity } from '../../types/focusActivityTypes/focusActivity.types'
+import { focusActivityModel } from '../../schema/focusActivitySchema/focusActivity.schema'
+
+export const deleteFocusActivityService = async (
+  data: IDeleteFocusActivity,
+) => {
+  try {
+    const { id } = data
+
+    // Validate input
+    if (!id) {
+      return sendErrorData(400, 'FocusActivity ID is required')
+    }
+
+    // Find the focusActivity document
+    const focusActivity = await focusActivityModel.findById(id)
+    if (!focusActivity) {
+      return sendErrorData(404, 'FocusActivity not found')
+    }
+
+    // Store file path before deletion for cleanup
+    const files = focusActivity.files
+
+    // Delete from database first
+    await focusActivityModel.findByIdAndDelete(id)
+
+    if (files && files.length > 0) {
+      const localPaths = files.map((file) => file.serverFilePath)
+      for (const path of localPaths) {
+        deleteFileIfExists(path)
+      }
+    }
+    return sendSuccessData('FocusActivity deleted successfully', focusActivity)
+  } catch (error) {
+    console.error('Delete focusActivity service error:', error)
+    return sendErrorData(
+      500,
+      'Internal server error occurred while deleting focusActivity',
+    )
+  }
+}

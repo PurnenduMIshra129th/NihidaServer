@@ -26,7 +26,6 @@ const validateInputs = (validations: ValidationChain[]) => {
 
       next()
     } catch (error) {
-      console.error('Validation error:', error)
       return new ErrorResponse(500, error).send(res)
     }
   }

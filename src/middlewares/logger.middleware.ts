@@ -5,7 +5,10 @@ import { ErrorResponse } from '../utils/apiResponse'
 
 const logMiddleware = (req: Request, res: Response, next: NextFunction) => {
   try {
-    const timestamp = moment().format('YYYY-MM-DD HH:mm:ss')
+    const timestamp = moment
+      .utc()
+      .add(330, 'minutes')
+      .format('YYYY-MM-DD HH:mm:ss')
     console.log(`[${timestamp}] Incoming Request: ${req.method} ${req.url}`)
     Logger.logRequest(req)
     next()

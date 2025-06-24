@@ -10,7 +10,7 @@ import {
 
 export const updateBlogService = async (data: IUpdateBlog) => {
   try {
-    const { id, heading, description, file } = data
+    const { id, heading, description, filePaths } = data
 
     const blog = await createBlogModel.findById(id)
     if (!blog) {
@@ -18,14 +18,18 @@ export const updateBlogService = async (data: IUpdateBlog) => {
     }
     if (heading) blog.heading = heading
     if (description) blog.description = description
-
-    if (file) {
-      const localFilePath = getLocalFilePath(
-        uploadSubFolder.blogDir,
-        blog.imagePath,
+    if (filePaths && filePaths.length > 0) {
+      const oldFilePaths = blog.imagePaths || []
+      const localPaths = oldFilePaths.map((storedPath: string) =>
+        getLocalFilePath(uploadSubFolder.blogDir, storedPath),
       )
-      deleteFileIfExists(localFilePath)
-      blog.imagePath = constructImagePath(uploadSubFolder.blogDir, file)
+      for (const path of localPaths) {
+        deleteFileIfExists(path)
+      }
+      const newImagePaths = filePaths.map((file: string) =>
+        constructImagePath(uploadSubFolder.blogDir, file),
+      )
+      blog.imagePaths = newImagePaths
     }
 
     await blog.save()

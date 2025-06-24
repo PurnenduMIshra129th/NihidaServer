@@ -8,22 +8,25 @@ import path = require('path')
 
 ensureUploadDirExists()
 
-const fileFilter = (
-  req: Request,
-  file: Express.Multer.File,
-  cb: FileFilterCallback,
-) => {
-  try {
-    if (!file.mimetype.startsWith('image')) {
-      return cb(new Error('Only image files are allowed') as any, false)
+type AllowedFileType = 'image' | 'pdf' | 'any'
+const createFileFilter = (type: AllowedFileType) => {
+  return (req: Request, file: Express.Multer.File, cb: FileFilterCallback) => {
+    try {
+      if (!file.mimetype.startsWith(type)) {
+        return cb(new Error(`Only ${type} files are allowed`) as any, false)
+      }
+      cb(null, true)
+    } catch (error) {
+      throw error
     }
-    cb(null, true)
-  } catch (error) {
-    throw error
   }
 }
-
-const uploadMiddleware = (subFolder: string) => {
+const uploadMiddleware = (
+  subFolder: string,
+  isMultiple: boolean = true,
+  allowedFileTypes: AllowedFileType = 'image',
+  fieldName: string = 'files',
+) => {
   return (req: Request, res: Response, next: NextFunction) => {
     try {
       const dynamicUploadDir = path.join(uploadDir, subFolder)
@@ -48,11 +51,21 @@ const uploadMiddleware = (subFolder: string) => {
           }
         },
       })
-      const upload = multer({
-        storage,
-        fileFilter,
-        limits: { fileSize: 5 * 1024 * 1024 },
-      }).single('image')
+      let upload
+      const fileFilter = createFileFilter(allowedFileTypes)
+      if (isMultiple) {
+        upload = multer({
+          storage,
+          fileFilter,
+          limits: { fileSize: 5 * 1024 * 1024 },
+        }).array(`${fieldName}`, 10)
+      } else {
+        upload = multer({
+          storage,
+          fileFilter,
+          limits: { fileSize: 5 * 1024 * 1024 },
+        }).single(`${fieldName}`)
+      }
 
       upload(req, res, (err: any) => {
         if (err) return new ErrorResponse(400, err).send(res)

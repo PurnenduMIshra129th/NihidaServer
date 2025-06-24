@@ -6,13 +6,17 @@ import { constructImagePath } from '../../utils/utils'
 
 export const createBlogService = async (data: ICreateBlog) => {
   try {
-    const { heading, description, file } = data
-
-    const imageUrl = constructImagePath(uploadSubFolder.blogDir, file)
+    const { heading, description, files } = data
+    if (!Array.isArray(files) || files.length === 0) {
+      return sendErrorData(400, 'Image files are required')
+    }
+    const imagePaths = files.map((file) =>
+      constructImagePath(uploadSubFolder.blogDir, file.filename),
+    )
     const Blog = new createBlogModel({
       heading: heading,
       description: description,
-      imagePath: imageUrl,
+      imagePaths: imagePaths,
     })
 
     await Blog.save()

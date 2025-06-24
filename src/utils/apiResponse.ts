@@ -25,6 +25,7 @@ class ErrorResponse {
   errorMessage: string
   shortHand: string
   error: any
+  private rawError: any
 
   constructor(errorCode: keyof typeof ErrorCodes, error?: any) {
     const errorInfo = ErrorCodes[errorCode] || ErrorCodes[500]
@@ -33,6 +34,7 @@ class ErrorResponse {
     this.errorCode = errorInfo.code
     this.errorMessage = errorInfo.message
     this.shortHand = errorInfo.shortHand
+    this.rawError = error
     if (error instanceof Error && typeof error.message === 'string') {
       this.error = error.message
     } else {
@@ -40,8 +42,9 @@ class ErrorResponse {
     }
   }
   send(res: Response) {
-    console.log(this.errorCode, this.errorMessage, this.error)
-    Logger.logError(this.errorCode, this.errorMessage, this.error)
+    console.log(this.errorCode, this.errorMessage, this.rawError)
+    Logger.logError(this.errorCode, this.errorMessage, this.rawError)
+    delete this.rawError
     res.status(200).json(this)
   }
 }

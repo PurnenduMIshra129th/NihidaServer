@@ -20,16 +20,19 @@ export const deleteBlogService = async (data: IDeleteBlog) => {
     }
 
     // Store file path before deletion for cleanup
-    const imagePath = blog.imagePath
+    const imagePaths = blog.imagePaths
 
     // Delete from database first
     await createBlogModel.findByIdAndDelete(id)
 
-    if (imagePath) {
-      const localFilePath = getLocalFilePath(uploadSubFolder.blogDir, imagePath)
-      deleteFileIfExists(localFilePath)
+    if (imagePaths && imagePaths.length > 0) {
+      const localPaths = imagePaths.map((storedPath: string) =>
+        getLocalFilePath(uploadSubFolder.blogDir, storedPath),
+      )
+      for (const path of localPaths) {
+        deleteFileIfExists(path)
+      }
     }
-
     return sendSuccessData('Blog deleted successfully', blog)
   } catch (error) {
     console.error('Delete blog service error:', error)

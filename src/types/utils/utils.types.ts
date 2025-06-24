@@ -7,3 +7,11 @@ export interface EnvironmentConfig {
   serverURL: string
   databaseConnectionString: string
 }
+export interface IFile {
+  _id: string
+  fileName: string
+  originalName: string
+  mimeType: string
+  serverFilePath: string
+  publicFilePath: string
+}

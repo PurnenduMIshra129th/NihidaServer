@@ -1,7 +1,12 @@
 import * as fs from 'fs'
+import moment from 'moment'
 import * as path from 'path'
 
 class Logger {
+  static localTime = moment
+    .utc()
+    .add(330, 'minutes')
+    .format('YYYY-MM-DD HH:mm:ss')
   private static ensureDirectories(): void {
     const logDir = path.join(__dirname, '../../logs')
     const successDir = path.join(logDir, './successLog')
@@ -18,7 +23,7 @@ class Logger {
   private static getLogFilePath(type: 'success' | 'error' | 'request'): string {
     this.ensureDirectories()
 
-    const date = new Date().toISOString().split('T')[0]
+    const date = moment.utc().add(330, 'minutes').format('YYYY-MM-DD')
     const folder =
       type === 'success'
         ? 'successLog'
@@ -39,17 +44,17 @@ class Logger {
   }
 
   static logRequest(req: any) {
-    const logMessage = `[${new Date().toISOString()}] REQUEST: ${req.method} ${req.url} | Headers: ${JSON.stringify(req.headers)} | Body: ${JSON.stringify(req.body)}\n`
+    const logMessage = `[${this.localTime}] REQUEST: ${req.method} ${req.url} | Headers: ${JSON.stringify(req.headers)} | Body: ${JSON.stringify(req.body)}\n`
     fs.appendFileSync(this.getLogFilePath('request'), logMessage)
   }
 
   static logSuccess(message: string, data: any) {
-    const logMessage = `[${new Date().toISOString()}] SUCCESS: Message: ${message} | Data: ${JSON.stringify(data)}\n`
+    const logMessage = `[${this.localTime}] SUCCESS: Message: ${message} | Data: ${JSON.stringify(data)}\n`
     fs.appendFileSync(this.getLogFilePath('success'), logMessage)
   }
 
   static logError(errorCode: number, errorMessage: string, error?: any) {
-    const logMessage = `[${new Date().toISOString()}] ERROR: Code: ${errorCode} | Message: ${errorMessage} | Details: ${JSON.stringify(error)}\n`
+    const logMessage = `[${this.localTime}] ERROR: Code: ${errorCode} | Message: ${errorMessage} | Details: ${JSON.stringify(error)}\n`
     fs.appendFileSync(this.getLogFilePath('error'), logMessage)
   }
 }

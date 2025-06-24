@@ -7,6 +7,9 @@ import videoRouter from './videoRoutes/video.routes'
 import carousalRouter from './carousalRoutes/carousal.routes'
 import socialLinkRouter from './socialLinkRoutes/socialLink.routes'
 import authenticationRouter from './authenticationRoutes/authentication.routes'
+import focusActivityRouter from './focusActivityRoutes/focusActivity.routes'
+import uploadRouter from './uploadRoutes/upload.routes'
+import upcomingEventRouter from './upcomingEvent/upcomingEvent.routes'
 
 const indexRouter = Router()
 indexRouter.use('/media', mediaRouter)
@@ -17,5 +20,8 @@ indexRouter.use('/video', videoRouter)
 indexRouter.use('/carousel', carousalRouter)
 indexRouter.use('/socialLink', socialLinkRouter)
 indexRouter.use('/authentication', authenticationRouter)
+indexRouter.use('/focusActivity', focusActivityRouter)
+indexRouter.use('/upload', uploadRouter)
+indexRouter.use('/upcomingEvent', upcomingEventRouter)
 
 export default indexRouter
