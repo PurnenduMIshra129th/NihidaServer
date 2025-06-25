@@ -7,7 +7,7 @@ import {
 import { Request } from 'express'
 import path from 'path'
 import fs from 'fs'
-import { EnvironmentConfig, EnvKey } from '../types/utils/utils.types'
+import { EnvironmentConfig, EnvKey } from '../types/utils/utils.type'
 
 export const constructImagePath = (
   subFolder: string,

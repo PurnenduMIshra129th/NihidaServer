@@ -1,6 +1,6 @@
 import * as dotenv from 'dotenv'
 import path from 'path'
-import { EnvKey, EnvironmentConfig } from '../types/utils/utils.types'
+import { EnvKey, EnvironmentConfig } from '../types/utils/utils.type'
 dotenv.config()
 
 export const jwtSecret = process.env.JWT_SECRET || ''
@@ -24,6 +24,8 @@ export const uploadSubFolder = {
   carousalDir: `/carousalUploads/`,
   focusActivityDir: `/focusActivityUploads/`,
   upcomingEventDir: `/upcomingEventUploads/`,
+  documentDir: `/documentUploads/`,
+  galleryDir: `/galleryUploads/`,
 }
 export const role = {
   user: 'user',

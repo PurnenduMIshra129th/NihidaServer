@@ -1,5 +1,5 @@
 import { upcomingEventModel } from '../../schema/upcomingEvent/upcomingEvent.schema'
-import { IUpdateUpcomingEvent } from '../../types/upcomingEvent/upcomingEvent.types'
+import { IUpdateUpcomingEvent } from '../../types/upcomingEvent/upcomingEvent.type'
 import { sendErrorData, sendSuccessData } from '../../utils/apiResponse'
 
 export const updateUpcomingEventService = async (

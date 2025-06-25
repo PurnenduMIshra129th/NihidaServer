@@ -1,6 +1,6 @@
 import express from 'express'
 import dbConnect from './config/db'
-import indexRouter from './routes/indexRouter'
+import indexRouter from './routes/index.route'
 import logMiddleware from './middlewares/logger.middleware'
 import cors from 'cors'
 import { authMiddleware } from './middlewares/auth.middleware'

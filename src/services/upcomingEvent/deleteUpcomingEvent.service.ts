@@ -1,5 +1,5 @@
 import { upcomingEventModel } from '../../schema/upcomingEvent/upcomingEvent.schema'
-import { IDeleteUpcomingEvent } from '../../types/upcomingEvent/upcomingEvent.types'
+import { IDeleteUpcomingEvent } from '../../types/upcomingEvent/upcomingEvent.type'
 import { sendErrorData, sendSuccessData } from '../../utils/apiResponse'
 import { deleteFileIfExists } from '../../utils/utils'
 
@@ -34,10 +34,6 @@ export const deleteUpcomingEventService = async (
     }
     return sendSuccessData('UpcomingEvent deleted successfully', upcomingEvent)
   } catch (error) {
-    console.error('Delete upcomingEvent service error:', error)
-    return sendErrorData(
-      500,
-      'Internal server error occurred while deleting upcomingEvent',
-    )
+    return sendErrorData(500, error)
   }
 }
