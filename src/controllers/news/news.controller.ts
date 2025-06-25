@@ -3,9 +3,9 @@ import { ErrorResponse, SuccessResponse } from '../../utils/apiResponse'
 import mongoose from 'mongoose'
 import ErrorCodes from '../../utils/errorCodes'
 import { newsModel } from '../../schema/news/news.schema'
-import { createNewsService } from '../../services/newsServices/createNews.service'
-import { deleteNewsService } from '../../services/newsServices/deleteNews.service'
-import { updateNewsService } from '../../services/newsServices/updateNews.service'
+import { createNewsService } from '../../services/news/createNews.service'
+import { deleteNewsService } from '../../services/news/deleteNews.service'
+import { updateNewsService } from '../../services/news/updateNews.service'
 
 export const createNewsController = async (req: Request, res: Response) => {
   try {

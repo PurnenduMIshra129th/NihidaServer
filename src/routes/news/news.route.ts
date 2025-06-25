@@ -7,7 +7,7 @@ import {
   deleteNewsController,
   getAllNewsController,
   getNewsByIdController,
-} from '../../controllers/newsController/news.controller'
+} from '../../controllers/news/news.controller'
 const newsRouter = Router()
 
 newsRouter.post('/createNews', validateInputs(newsDTO), createNewsController)

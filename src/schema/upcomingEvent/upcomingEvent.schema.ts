@@ -48,6 +48,6 @@ const upcomingEventSchema = new mongoose.Schema(
 )
 
 export const upcomingEventModel = mongoose.model(
-  'FocusActivity',
+  'UpcomingEvent',
   upcomingEventSchema,
 )
