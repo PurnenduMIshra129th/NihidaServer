@@ -23,67 +23,67 @@ uploadRouter.post(
 )
 
 uploadRouter.put(
-  '/updateFocusActivityFile/:id/:fileID',
+  '/updateFocusActivityFile',
   validateUploadTarget(focusActivityModel),
   uploadMiddleware(uploadSubFolder.focusActivityDir, false),
   updateUploadFileController(focusActivityModel),
 )
 
 uploadRouter.delete(
-  '/deleteFocusActivityFile/:id/:fileID',
+  '/deleteFocusActivityFile',
   deleteUploadFileController(focusActivityModel),
 )
 
 uploadRouter.post(
-  '/createUpcomingEventFile/:id',
+  '/createUpcomingEventFile',
   validateUploadTarget(upcomingEventModel),
   uploadMiddleware(uploadSubFolder.upcomingEventDir, false),
   uploadController(upcomingEventModel, false),
 )
 uploadRouter.put(
-  '/updateUpcomingEventFile/:id/:fileID',
+  '/updateUpcomingEventFile',
   validateUploadTarget(upcomingEventModel),
   uploadMiddleware(uploadSubFolder.upcomingEventDir, false),
   updateUploadFileController(upcomingEventModel),
 )
 
 uploadRouter.delete(
-  '/deleteUpcomingEventFile/:id/:fileID',
+  '/deleteUpcomingEventFile',
   deleteUploadFileController(upcomingEventModel),
 )
 
 uploadRouter.post(
-  '/createDocumentFile/:id',
+  '/createDocumentFile',
   validateUploadTarget(documentModel),
   uploadMiddleware(uploadSubFolder.documentDir, true),
   uploadController(documentModel, true),
 )
 uploadRouter.put(
-  '/updateDocumentFile/:id/:fileID',
+  '/updateDocumentFile',
   validateUploadTarget(documentModel),
   uploadMiddleware(uploadSubFolder.documentDir, false),
   updateUploadFileController(documentModel),
 )
 
 uploadRouter.delete(
-  '/deleteDocumentFile/:id/:fileID',
+  '/deleteDocumentFile',
   deleteUploadFileController(documentModel),
 )
 uploadRouter.post(
-  '/createGalleryFile/:id',
+  '/createGalleryFile',
   validateUploadTarget(galleryModel),
   uploadMiddleware(uploadSubFolder.galleryDir, true),
   uploadController(galleryModel, true),
 )
 uploadRouter.put(
-  '/updateGalleryFile/:id/:fileID',
+  '/updateGalleryFile',
   validateUploadTarget(galleryModel),
   uploadMiddleware(uploadSubFolder.galleryDir, false),
   updateUploadFileController(galleryModel),
 )
 
 uploadRouter.delete(
-  '/deleteGalleryFile/:id/:fileID',
+  '/deleteGalleryFile',
   deleteUploadFileController(galleryModel),
 )
 uploadRouter.post(
@@ -101,21 +101,18 @@ uploadRouter.put(
 
 uploadRouter.delete('/deleteNewsFile', deleteUploadFileController(newsModel))
 uploadRouter.post(
-  '/createVideoFile/:id',
+  '/createVideoFile',
   validateUploadTarget(videoModel),
   uploadMiddleware(uploadSubFolder.videoDir, false),
   uploadController(videoModel, false),
 )
 uploadRouter.put(
-  '/updateVideoFile/:id/:fileID',
+  '/updateVideoFile',
   validateUploadTarget(videoModel),
   uploadMiddleware(uploadSubFolder.videoDir, false),
   updateUploadFileController(videoModel),
 )
 
-uploadRouter.delete(
-  '/deleteVideoFile/:id/:fileID',
-  deleteUploadFileController(videoModel),
-)
+uploadRouter.delete('/deleteVideoFile', deleteUploadFileController(videoModel))
 
 export default uploadRouter
