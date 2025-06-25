@@ -6,15 +6,19 @@ import { Request, Response } from 'express'
 export const validateUploadTarget =
   (model: mongoose.Model<any>) =>
   async (req: Request, res: Response, next: NextFunction) => {
-    const { id } = req.params
+    try {
+      const { id } = req.params
 
-    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
-      return new ErrorResponse(400, 'Invalid or missing ID').send(res)
-    }
+      if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+        return new ErrorResponse(400, 'Invalid or missing ID').send(res)
+      }
 
-    const doc = await model.findById(id)
-    if (!doc) {
-      return new ErrorResponse(404, 'Document not found').send(res)
+      const doc = await model.findById(id)
+      if (!doc) {
+        return new ErrorResponse(404, 'Document not found').send(res)
+      }
+      next()
+    } catch (error) {
+      return new ErrorResponse(500, error).send(res)
     }
-    next()
   }

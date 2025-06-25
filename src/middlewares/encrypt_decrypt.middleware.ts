@@ -13,7 +13,7 @@ export const decryptionMiddleware = (
     }
     next()
   } catch (error) {
-    return new ErrorResponse(400, error).send(res)
+    return new ErrorResponse(500, error).send(res)
   }
 }
 

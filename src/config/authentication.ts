@@ -6,7 +6,7 @@ import {
   jwtExpiration,
   jwtSecret,
 } from '../utils/constant'
-import { createUserModel } from '../models/userModels/user.model'
+import { userModel } from '../schema/user/user.schema'
 
 export const generateToken = (userId: string, role: string): string => {
   return jwt.sign({ userId, role }, jwtSecret!, {
@@ -27,7 +27,7 @@ export const comparePasswords = async (
 
 export const initializeAdmin = async (): Promise<void> => {
   try {
-    const adminExists = await createUserModel.findOne({ email: adminEmail })
+    const adminExists = await userModel.findOne({ email: adminEmail })
 
     if (adminExists) {
       console.log('Admin user already exists')
@@ -36,7 +36,7 @@ export const initializeAdmin = async (): Promise<void> => {
 
     const hashedPassword = await hashPassword(adminPassword || 'Admin@123')
 
-    const newAdmin = new createUserModel({
+    const newAdmin = new userModel({
       email: adminEmail,
       password: hashedPassword,
       role: 'admin',

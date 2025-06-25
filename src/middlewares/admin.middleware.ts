@@ -9,28 +9,27 @@ export const adminMiddleware = (
   res: Response,
   next: NextFunction,
 ) => {
-  const isNonAdminRoute = nonAdminRoutes.some((routePattern) =>
-    matchRoute(routePattern, req.path),
-  )
-
-  if (isNonAdminRoute) return next()
-
-  const token = extractToken(req)
-
-  if (!token)
-    return new ErrorResponse(401, 'Please Provide a valid token').send(res)
-
   try {
+    const isNonAdminRoute = nonAdminRoutes.some((routePattern) =>
+      matchRoute(routePattern, req.path),
+    )
+
+    if (isNonAdminRoute) return next()
+
+    const token = extractToken(req)
+
+    if (!token)
+      return new ErrorResponse(401, 'Please Provide a valid token').send(res)
+
     const decoded = jwt.verify(token, jwtSecret!) as {
       role: string
     }
     if (decoded.role !== role.admin) {
       return new ErrorResponse(403, 'Access denied: Admins only').send(res)
     }
-
     req.user = decoded
     next()
   } catch (error) {
-    return new ErrorResponse(401, error).send(res)
+    return new ErrorResponse(500, error).send(res)
   }
 }
