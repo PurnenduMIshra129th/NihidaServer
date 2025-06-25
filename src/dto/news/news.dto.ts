@@ -11,11 +11,6 @@ export const newsDTO = [
 
   body('url').optional().isURL().withMessage('URL must be a valid link'),
 
-  body('coverImage')
-    .optional()
-    .isString()
-    .withMessage('Cover image must be a valid path or URL'),
-
   body('category')
     .notEmpty()
     .withMessage('Category is required')

@@ -9,10 +9,23 @@ export const uploadController =
   (model: mongoose.Model<any>, isMultiple: boolean = true) =>
   async (req: Request, res: Response) => {
     try {
-      const { id } = req.params
-      // Validate MongoDB ObjectId
+      const { id } = req.query
+
+      if (!id) {
+        return new ErrorResponse(400, 'Missing id in query parameters').send(
+          res,
+        )
+      }
+      if (
+        Array.isArray(id) ||
+        typeof id === 'object' ||
+        typeof id !== 'string'
+      ) {
+        return new ErrorResponse(400, 'ID must be a string').send(res)
+      }
+
       if (!mongoose.Types.ObjectId.isValid(id)) {
-        return new ErrorResponse(400, 'Invalid ID parameter').send(res)
+        return new ErrorResponse(400, 'Invalid ID').send(res)
       }
       // Fetch the existing document
       const existingDoc = await model.findById(id)
@@ -57,17 +70,36 @@ export const deleteUploadFileController =
     try {
       const { id, fileID } = req.params
 
-      if (typeof id !== 'string' || typeof fileID !== 'string') {
-        return new ErrorResponse(
-          400,
-          'Missing or invalid query parameters',
-        ).send(res)
+      if (!id) {
+        return new ErrorResponse(400, 'Missing id in query parameters').send(
+          res,
+        )
+      }
+      if (
+        Array.isArray(id) ||
+        typeof id === 'object' ||
+        typeof id !== 'string'
+      ) {
+        return new ErrorResponse(400, 'ID must be a string').send(res)
       }
 
       if (!mongoose.Types.ObjectId.isValid(id)) {
         return new ErrorResponse(400, 'Invalid document ID').send(res)
       }
 
+      if (!fileID) {
+        return new ErrorResponse(
+          400,
+          'Missing file ID in query parameters',
+        ).send(res)
+      }
+      if (
+        Array.isArray(fileID) ||
+        typeof fileID === 'object' ||
+        typeof fileID !== 'string'
+      ) {
+        return new ErrorResponse(400, 'File ID must be a string').send(res)
+      }
       if (!mongoose.Types.ObjectId.isValid(fileID)) {
         return new ErrorResponse(400, 'Invalid file ID').send(res)
       }
@@ -113,18 +145,39 @@ export const deleteUploadFileController =
 export const updateUploadFileController =
   (model: mongoose.Model<any>) => async (req: Request, res: Response) => {
     try {
-      const { id, fileID } = req.params
+      const { id, fileID } = req.query
 
-      if (typeof id !== 'string' || typeof fileID !== 'string') {
-        return new ErrorResponse(
-          400,
-          'Missing or invalid query parameters',
-        ).send(res)
+      if (!id) {
+        return new ErrorResponse(400, 'Missing id in query parameters').send(
+          res,
+        )
+      }
+      if (
+        Array.isArray(id) ||
+        typeof id === 'object' ||
+        typeof id !== 'string'
+      ) {
+        return new ErrorResponse(400, 'ID must be a string').send(res)
       }
 
       if (!mongoose.Types.ObjectId.isValid(id)) {
         return new ErrorResponse(400, 'Invalid document ID').send(res)
       }
+
+      if (!fileID) {
+        return new ErrorResponse(
+          400,
+          'Missing file ID in query parameters',
+        ).send(res)
+      }
+      if (
+        Array.isArray(fileID) ||
+        typeof fileID === 'object' ||
+        typeof fileID !== 'string'
+      ) {
+        return new ErrorResponse(400, 'File ID must be a string').send(res)
+      }
+
       if (!mongoose.Types.ObjectId.isValid(fileID)) {
         return new ErrorResponse(400, 'Invalid file ID').send(res)
       }

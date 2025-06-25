@@ -16,7 +16,7 @@ import { videoModel } from '../../schema/video/video.schema'
 const uploadRouter = Router()
 
 uploadRouter.post(
-  '/createFocusActivityFile/:id',
+  '/createFocusActivityFile',
   validateUploadTarget(focusActivityModel),
   uploadMiddleware(uploadSubFolder.focusActivityDir, true),
   uploadController(focusActivityModel, true),
@@ -87,22 +87,19 @@ uploadRouter.delete(
   deleteUploadFileController(galleryModel),
 )
 uploadRouter.post(
-  '/createNewsFile/:id',
+  '/createNewsFile',
   validateUploadTarget(newsModel),
   uploadMiddleware(uploadSubFolder.newsDir, true),
   uploadController(newsModel, true),
 )
 uploadRouter.put(
-  '/updateNewsFile/:id/:fileID',
+  '/updateNewsFile',
   validateUploadTarget(newsModel),
   uploadMiddleware(uploadSubFolder.newsDir, false),
   updateUploadFileController(newsModel),
 )
 
-uploadRouter.delete(
-  '/deleteNewsFile/:id/:fileID',
-  deleteUploadFileController(newsModel),
-)
+uploadRouter.delete('/deleteNewsFile', deleteUploadFileController(newsModel))
 uploadRouter.post(
   '/createVideoFile/:id',
   validateUploadTarget(videoModel),
