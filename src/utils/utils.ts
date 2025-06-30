@@ -105,6 +105,8 @@ export const nonTokenizedRoutes = [
   `${baseUrl}/productAndService/getAllProductAndService`,
   `${baseUrl}/socialLink/getAllSocialLink`,
   `${baseUrl}/video/getAllVideo`,
+  `${baseUrl}/focusActivity/getAllFocusActivity`,
+  `${baseUrl}/upcomingEvent/getAllUpcomingEvent`,
 ]
 export const nonAdminRoutes = [
   '/favicon.ico',
@@ -117,7 +119,11 @@ export const nonAdminRoutes = [
   `${baseUrl}/media/getMediaById/:id`,
   `${baseUrl}/news/getAllNews`,
   `${baseUrl}/news/getNewsById/:id`,
-  `${baseUrl}/productAndService/getAllProductAndService`,
+  `${baseUrl}/productAndService/getAllProduc\tAndService`,
   `${baseUrl}/socialLink/getAllSocialLink`,
   `${baseUrl}/video/getAllVideo`,
+  `${baseUrl}/focusActivity/getAllFocusActivity`,
+  `${baseUrl}/focusActivity/getFocusActivityById/:id`,
+  `${baseUrl}/upcomingEvent/getAllUpcomingEvent`,
+  `${baseUrl}/upcomingEvent/getUpcomingEventById/:id`,
 ]

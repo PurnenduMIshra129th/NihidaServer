@@ -68,7 +68,7 @@ export const deleteUploadFileController =
   (model: mongoose.Model<any>) =>
   async (req: Request, res: Response): Promise<any> => {
     try {
-      const { id, fileID } = req.params
+      const { id, fileID } = req.query
 
       if (!id) {
         return new ErrorResponse(400, 'Missing id in query parameters').send(

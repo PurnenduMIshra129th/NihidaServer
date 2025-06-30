@@ -3,6 +3,9 @@ import { ErrorResponse, SuccessResponse } from '../../utils/apiResponse'
 import ErrorCodes from '../../utils/errorCodes'
 import { loginService } from '../../services/authentication/login.service'
 import { signUpService } from '../../services/authentication/signUp.service'
+import { userModel } from '../../schema/user/user.schema'
+import jwt from 'jsonwebtoken'
+import { jwtSecret } from '../../utils/constant'
 
 export const loginController = async (req: Request, res: Response) => {
   try {
@@ -43,6 +46,41 @@ export const signUpController = async (req: Request, res: Response) => {
         result.error,
       ).send(res)
     }
+  } catch (error) {
+    return new ErrorResponse(500, error).send(res)
+  }
+}
+export const getUserController = async (req: Request, res: Response) => {
+  try {
+    const authHeader = req.headers.authorization
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return new ErrorResponse(
+        401,
+        'Authorization token missing or malformed',
+      ).send(res)
+    }
+
+    const token = authHeader.split(' ')[1]
+
+    let decoded: any
+    try {
+      decoded = jwt.verify(token, jwtSecret!)
+    } catch {
+      return new ErrorResponse(401, 'Invalid or expired token').send(res)
+    }
+
+    const userId = decoded?.userId
+    if (!userId) {
+      return new ErrorResponse(400, 'Invalid token payload').send(res)
+    }
+
+    const user = await userModel.findById(userId).select('-password') // exclude password
+    if (!user) {
+      return new ErrorResponse(404, 'User not found').send(res)
+    }
+
+    return new SuccessResponse('User fetched successfully', user).send(res)
   } catch (error) {
     return new ErrorResponse(500, error).send(res)
   }

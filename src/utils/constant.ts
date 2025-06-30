@@ -9,7 +9,7 @@ export const encryption_key = process.env.ENCRYPTION_KEY || ''
 export const adminEmail = process.env.ADMIN_EMAIL || ''
 export const adminPassword = process.env.ADMIN_PASSWORD || ''
 export const jwtExpiration = '1h'
-export const currentEnv: keyof typeof nodeENV = 'local'
+export const currentEnv: keyof typeof nodeENV = 'test'
 
 export const port = 3000
 export const baseUrl = '/NIHIDA'

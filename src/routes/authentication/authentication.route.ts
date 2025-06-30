@@ -2,6 +2,7 @@ import { Router } from 'express'
 import validateInputs from '../../middlewares/validation.middleware'
 import { signUpDTO } from '../../dto/user/signUp.dto'
 import {
+  getUserController,
   loginController,
   signUpController,
 } from '../../controllers/authentication/authentication.controller'
@@ -14,5 +15,6 @@ authenticationRouter.post(
   validateInputs(signUpDTO),
   signUpController,
 )
+authenticationRouter.get('/getUser', getUserController)
 
 export default authenticationRouter
