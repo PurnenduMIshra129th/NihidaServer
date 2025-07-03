@@ -42,6 +42,7 @@ app.use((req, res) => {
 
 const PORT = port
 app.listen(PORT, () => {
+  console.log(`Cors Endpoints: ${corsTargetEndpoint}`)
   console.log('Current environment:', currentEnv)
   console.log(`Server is running in port:${PORT}`)
 })
