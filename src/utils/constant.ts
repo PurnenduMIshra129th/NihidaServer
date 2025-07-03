@@ -51,7 +51,7 @@ export const environmentConfig: Record<EnvKey, EnvironmentConfig> = {
       'mongodb+srv://purnendumishra129th:C6aMOcsZTkBtF4iZ@nihida.28reeua.mongodb.net/?retryWrites=true&w=majority&appName=NIHIDA',
   },
   prod: {
-    corsEndpoints: ['https://nihida.org.in/'],
+    corsEndpoints: ['https://nihida.org.in'],
     serverURL: 'https://nihidaapi.onrender.com',
     databaseConnectionString:
       'mongodb+srv://purnendumishra129th:C6aMOcsZTkBtF4iZ@nihida.28reeua.mongodb.net/?retryWrites=true&w=majority&appName=NIHIDA',
