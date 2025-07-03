@@ -10,9 +10,15 @@ ensureUploadDirExists()
 
 type AllowedFileType = 'image' | 'pdf' | 'any'
 const createFileFilter = (type: AllowedFileType) => {
+  const mimeTypes: { [key: string]: string } = {
+    image: 'image/',
+    pdf: 'application/pdf',
+    any: '',
+  }
   return (req: Request, file: Express.Multer.File, cb: FileFilterCallback) => {
     try {
-      if (!file.mimetype.startsWith(type)) {
+      const allowedMimeType = mimeTypes[type]
+      if (!allowedMimeType || !file.mimetype.startsWith(allowedMimeType)) {
         return cb(new Error(`Only ${type} files are allowed`) as any, false)
       }
       cb(null, true)

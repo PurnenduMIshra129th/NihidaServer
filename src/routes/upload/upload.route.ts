@@ -55,13 +55,13 @@ uploadRouter.delete(
 uploadRouter.post(
   '/createDocumentFile',
   validateUploadTarget(documentModel),
-  uploadMiddleware(uploadSubFolder.documentDir, true),
+  uploadMiddleware(uploadSubFolder.documentDir, true, 'pdf'),
   uploadController(documentModel, true),
 )
 uploadRouter.put(
   '/updateDocumentFile',
   validateUploadTarget(documentModel),
-  uploadMiddleware(uploadSubFolder.documentDir, false),
+  uploadMiddleware(uploadSubFolder.documentDir, false, 'pdf'),
   updateUploadFileController(documentModel),
 )
 

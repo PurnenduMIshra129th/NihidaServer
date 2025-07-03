@@ -107,6 +107,7 @@ export const nonTokenizedRoutes = [
   `${baseUrl}/video/getAllVideo`,
   `${baseUrl}/focusActivity/getAllFocusActivity`,
   `${baseUrl}/upcomingEvent/getAllUpcomingEvent`,
+  `${baseUrl}/document/getAllDocument`,
 ]
 export const nonAdminRoutes = [
   '/favicon.ico',
@@ -126,4 +127,6 @@ export const nonAdminRoutes = [
   `${baseUrl}/focusActivity/getFocusActivityById/:id`,
   `${baseUrl}/upcomingEvent/getAllUpcomingEvent`,
   `${baseUrl}/upcomingEvent/getUpcomingEventById/:id`,
+  `${baseUrl}/document/getAllDocument`,
+  `${baseUrl}/document/getDocumentById/:id`,
 ]
