@@ -9,7 +9,7 @@ export const encryption_key = process.env.ENCRYPTION_KEY || ''
 export const adminEmail = process.env.ADMIN_EMAIL || ''
 export const adminPassword = process.env.ADMIN_PASSWORD || ''
 export const jwtExpiration = '1h'
-export const currentEnv: keyof typeof nodeENV = 'prod'
+export const currentEnv: keyof typeof nodeENV = 'local'
 
 export const port = 3000
 export const baseUrl = '/NIHIDA'
@@ -45,7 +45,9 @@ export const environmentConfig: Record<EnvKey, EnvironmentConfig> = {
       'mongodb://127.0.0.1:27017/NIHIDA?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.5.3',
   },
   test: {
-    corsEndpoints: ['https://nihidafrontend.onrender.com,'],
+    corsEndpoints: [
+      'https://nihidafrontend.onrender.com,https://nihida.org.in/',
+    ],
     serverURL: 'https://nihidaapi.onrender.com',
     databaseConnectionString:
       'mongodb+srv://purnendumishra129th:C6aMOcsZTkBtF4iZ@nihida.28reeua.mongodb.net/?retryWrites=true&w=majority&appName=NIHIDA',
