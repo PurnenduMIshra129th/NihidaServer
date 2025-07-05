@@ -22,7 +22,7 @@ uploadRouter.post(
   uploadController(focusActivityModel, true),
 )
 
-uploadRouter.put(
+uploadRouter.post(
   '/updateFocusActivityFile',
   validateUploadTarget(focusActivityModel),
   uploadMiddleware(uploadSubFolder.focusActivityDir, false),
@@ -40,7 +40,7 @@ uploadRouter.post(
   uploadMiddleware(uploadSubFolder.upcomingEventDir, false),
   uploadController(upcomingEventModel, false),
 )
-uploadRouter.put(
+uploadRouter.post(
   '/updateUpcomingEventFile',
   validateUploadTarget(upcomingEventModel),
   uploadMiddleware(uploadSubFolder.upcomingEventDir, false),
@@ -58,7 +58,7 @@ uploadRouter.post(
   uploadMiddleware(uploadSubFolder.documentDir, true, 'pdf'),
   uploadController(documentModel, true),
 )
-uploadRouter.put(
+uploadRouter.post(
   '/updateDocumentFile',
   validateUploadTarget(documentModel),
   uploadMiddleware(uploadSubFolder.documentDir, false, 'pdf'),
@@ -75,7 +75,7 @@ uploadRouter.post(
   uploadMiddleware(uploadSubFolder.galleryDir, true),
   uploadController(galleryModel, true),
 )
-uploadRouter.put(
+uploadRouter.post(
   '/updateGalleryFile',
   validateUploadTarget(galleryModel),
   uploadMiddleware(uploadSubFolder.galleryDir, false),
@@ -92,7 +92,7 @@ uploadRouter.post(
   uploadMiddleware(uploadSubFolder.newsDir, true),
   uploadController(newsModel, true),
 )
-uploadRouter.put(
+uploadRouter.post(
   '/updateNewsFile',
   validateUploadTarget(newsModel),
   uploadMiddleware(uploadSubFolder.newsDir, false),
@@ -106,7 +106,7 @@ uploadRouter.post(
   uploadMiddleware(uploadSubFolder.videoDir, false),
   uploadController(videoModel, false),
 )
-uploadRouter.put(
+uploadRouter.post(
   '/updateVideoFile',
   validateUploadTarget(videoModel),
   uploadMiddleware(uploadSubFolder.videoDir, false),
