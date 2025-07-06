@@ -13,6 +13,7 @@ export const createVideoService = async (data: ICreateVideo) => {
       tags,
       highlighted,
       uploadedBy,
+      youtubeUrl,
     } = data
 
     const Video = new videoModel({
@@ -24,6 +25,7 @@ export const createVideoService = async (data: ICreateVideo) => {
       tags,
       highlighted,
       uploadedBy,
+      youtubeUrl,
     })
 
     await Video.save()

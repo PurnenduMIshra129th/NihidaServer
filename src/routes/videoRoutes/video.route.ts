@@ -19,7 +19,7 @@ videoRouter.post(
   validateInputs(videoDTO),
   createVideoController,
 )
-videoRouter.post(
+videoRouter.put(
   '/updateVideo/:id',
   uploadMiddleware(uploadSubFolder.videoDir),
   validateInputs(videoDTO),

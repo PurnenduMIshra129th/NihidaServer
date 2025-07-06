@@ -4,6 +4,7 @@ export interface IUpdateVideo extends ICreateVideo {
 export interface ICreateVideo {
   title: string
   description?: string
+  youtubeUrl: string
   category:
     | 'testimonial'
     | 'project'

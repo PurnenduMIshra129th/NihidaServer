@@ -18,6 +18,7 @@ export const createVideoController = async (req: Request, res: Response) => {
       tags,
       highlighted,
       uploadedBy,
+      youtubeUrl,
     } = req?.body
     const argObj = {
       title,
@@ -28,6 +29,7 @@ export const createVideoController = async (req: Request, res: Response) => {
       tags,
       highlighted,
       uploadedBy,
+      youtubeUrl,
     }
     const result = await createVideoService(argObj)
     if (result instanceof SuccessResponse && result.statusCode === 1) {
@@ -58,6 +60,7 @@ export const updateVideoController = async (req: Request, res: Response) => {
       tags,
       highlighted,
       uploadedBy,
+      youtubeUrl,
     } = req.body
 
     const argObj = {
@@ -70,6 +73,7 @@ export const updateVideoController = async (req: Request, res: Response) => {
       tags,
       highlighted,
       uploadedBy,
+      youtubeUrl,
     }
     const result = await updateVideoService(argObj)
     if (result instanceof SuccessResponse && result.statusCode === 1) {
