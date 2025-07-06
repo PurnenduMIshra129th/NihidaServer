@@ -109,6 +109,7 @@ export const nonTokenizedRoutes = [
   `${baseUrl}/upcomingEvent/getAllUpcomingEvent`,
   `${baseUrl}/document/getAllDocument`,
   `${baseUrl}/gallery/getAllGallery`,
+  `${baseUrl}/news/getAllNews`,
 ]
 export const nonAdminRoutes = [
   '/favicon.ico',
@@ -130,6 +131,10 @@ export const nonAdminRoutes = [
   `${baseUrl}/upcomingEvent/getUpcomingEventById/:id`,
   `${baseUrl}/document/getAllDocument`,
   `${baseUrl}/document/getDocumentById/:id`,
+
   `${baseUrl}/gallery/getAllGallery`,
   `${baseUrl}/gallery/getGalleryById/:id`,
+
+  `${baseUrl}/news/getAllNews`,
+  `${baseUrl}/news/getNewsById/:id`,
 ]

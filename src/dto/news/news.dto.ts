@@ -9,7 +9,10 @@ export const newsDTO = [
 
   body('source').optional().isString().withMessage('Source must be a string'),
 
-  body('url').optional().isURL().withMessage('URL must be a valid link'),
+  body('url')
+    .optional({ checkFalsy: true })
+    .isURL()
+    .withMessage('URL must be a valid link'),
 
   body('category')
     .notEmpty()

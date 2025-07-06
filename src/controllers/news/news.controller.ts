@@ -119,11 +119,11 @@ export const getAllNewsController = async (_: Request, res: Response) => {
   try {
     const newsList = await newsModel.find().sort({ createdAt: -1 })
     if (newsList?.length > 0) {
-      return new SuccessResponse('Newss retrieved successfully', newsList).send(
+      return new SuccessResponse('News retrieved successfully', newsList).send(
         res,
       )
     } else {
-      return new ErrorResponse(404, 'Newss not found').send(res)
+      return new ErrorResponse(404, 'News not found').send(res)
     }
   } catch (error) {
     return new ErrorResponse(500, error).send(res)
