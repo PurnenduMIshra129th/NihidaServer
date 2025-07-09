@@ -13,6 +13,7 @@ import { documentModel } from '../../schema/document/document.schema'
 import { galleryModel } from '../../schema/gallery/gallery.schema'
 import { newsModel } from '../../schema/news/news.schema'
 import { videoModel } from '../../schema/video/video.schema'
+import { socialLinkAndCommonImageModel } from '../../schema/socialLinkAndCommonImage/socialLinkAndCommonImage.schema'
 const uploadRouter = Router()
 
 uploadRouter.post(
@@ -114,5 +115,23 @@ uploadRouter.post(
 )
 
 uploadRouter.delete('/deleteVideoFile', deleteUploadFileController(videoModel))
+
+uploadRouter.post(
+  '/createSocialLinkAndCommonImageFile',
+  validateUploadTarget(socialLinkAndCommonImageModel),
+  uploadMiddleware(uploadSubFolder.socialLinkAndCommonImageDir, true),
+  uploadController(socialLinkAndCommonImageModel, true),
+)
+uploadRouter.post(
+  '/updateSocialLinkAndCommonImageFile',
+  validateUploadTarget(socialLinkAndCommonImageModel),
+  uploadMiddleware(uploadSubFolder.socialLinkAndCommonImageDir, false),
+  updateUploadFileController(socialLinkAndCommonImageModel),
+)
+
+uploadRouter.delete(
+  '/deleteSocialLinkAndCommonImageFile',
+  deleteUploadFileController(socialLinkAndCommonImageModel),
+)
 
 export default uploadRouter

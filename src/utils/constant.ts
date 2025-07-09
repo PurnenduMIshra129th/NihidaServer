@@ -16,16 +16,13 @@ export const baseUrl = '/NIHIDA'
 export const uploadsFolder = '/uploads/'
 export const uploadDir = path.join(__dirname, `../../${uploadsFolder}`)
 export const uploadSubFolder = {
-  mediaDir: `/mediaUploads/`,
-  blogDir: `/blogUploads/`,
   newsDir: `/newsUploads/`,
-  productAndServiceDir: `/productAndServiceUploads/`,
   videoDir: `/videoUploads/`,
-  carousalDir: `/carousalUploads/`,
   focusActivityDir: `/focusActivityUploads/`,
   upcomingEventDir: `/upcomingEventUploads/`,
   documentDir: `/documentUploads/`,
   galleryDir: `/galleryUploads/`,
+  socialLinkAndCommonImageDir: `/socialLinkAndCommonImageUploads/`,
 }
 export const role = {
   user: 'user',
