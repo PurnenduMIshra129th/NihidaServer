@@ -112,6 +112,7 @@ export const nonAdminRoutes = [
   '/favicon.ico',
   `${baseUrl}/authentication/login`,
   `${baseUrl}/authentication/signUp`,
+  `${baseUrl}/authentication/getUser`,
 
   `${baseUrl}/socialLinkAndCommonImage/getAllSocialLinkAndCommonImage`,
   `${baseUrl}/socialLinkAndCommonImage/getSocialLinkAndCommonImageById/:id`,
