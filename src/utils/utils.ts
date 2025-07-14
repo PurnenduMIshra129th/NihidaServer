@@ -7,6 +7,7 @@ import {
 import { Request } from 'express'
 import path from 'path'
 import fs from 'fs'
+import { pathToRegexp } from 'path-to-regexp'
 import { EnvironmentConfig, EnvKey } from '../types/utils/utils.type'
 
 export const constructImagePath = (
@@ -93,7 +94,10 @@ export const getEnvValue = <T extends keyof EnvironmentConfig>(
 ): EnvironmentConfig[T] => {
   return environmentConfig?.[env]?.[key]
 }
-
+export const doesRouteMatch = (pattern: string, path: string): boolean => {
+  const regex = pathToRegexp(pattern)
+  return regex.regexp.test(path)
+}
 export const nonTokenizedRoutes = [
   '/favicon.ico',
   `${baseUrl}/authentication/login`,
@@ -126,4 +130,28 @@ export const nonAdminRoutes = [
   `${baseUrl}/focusActivity/getFocusActivityById/:id`,
   `${baseUrl}/upcomingEvent/getAllUpcomingEvent`,
   `${baseUrl}/upcomingEvent/getUpcomingEventById/:id`,
+]
+export const cachedEndpoints = [
+  '/favicon.ico',
+
+  `${baseUrl}/news/getAllNews`,
+  `${baseUrl}/news/getNewsById/:id`,
+
+  `${baseUrl}/socialLinkAndCommonImage/getAllSocialLinkAndCommonImage`,
+  `${baseUrl}/socialLinkAndCommonImage/getSocialLinkAndCommonImageById/:id`,
+
+  `${baseUrl}/focusActivity/getAllFocusActivity`,
+  `${baseUrl}/focusActivity/getFocusActivityById/:id`,
+
+  `${baseUrl}/upcomingEvent/getAllUpcomingEvent`,
+  `${baseUrl}/upcomingEvent/getUpcomingEventById/:id`,
+
+  `${baseUrl}/document/getAllDocument`,
+  `${baseUrl}/document/getDocumentById/:id`,
+
+  `${baseUrl}/gallery/getAllGallery`,
+  `${baseUrl}/gallery/getGalleryById/:id`,
+
+  `${baseUrl}/video/getAllVideo`,
+  `${baseUrl}/video/getVideoById/:id`,
 ]

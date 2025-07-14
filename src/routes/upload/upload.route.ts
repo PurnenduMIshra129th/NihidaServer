@@ -7,7 +7,7 @@ import {
   uploadController,
 } from '../../controllers/upload/upload.controller'
 import { focusActivityModel } from '../../schema/focusActivity/focusActivity.schema'
-import { validateUploadTarget } from '../../middlewares/validateTargetUpload'
+import { validateUploadTarget } from '../../middlewares/validateTargetUpload.middleware'
 import { upcomingEventModel } from '../../schema/upcomingEvent/upcomingEvent.schema'
 import { documentModel } from '../../schema/document/document.schema'
 import { galleryModel } from '../../schema/gallery/gallery.schema'
