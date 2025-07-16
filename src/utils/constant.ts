@@ -9,7 +9,7 @@ export const encryption_key = process.env.ENCRYPTION_KEY || ''
 export const adminEmail = process.env.ADMIN_EMAIL || ''
 export const adminPassword = process.env.ADMIN_PASSWORD || ''
 export const jwtExpiration = '1h'
-export const currentEnv: keyof typeof nodeENV = 'local'
+export const currentEnv: keyof typeof nodeENV = 'prod'
 export const redisURL = process.env.REDIS_URL || 'redis://127.0.0.1:6379'
 
 export const port = 3000
