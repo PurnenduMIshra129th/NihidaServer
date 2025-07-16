@@ -8,11 +8,11 @@ export interface ICreateGallery {
     | 'community'
     | 'other'
   description?: string
-  date: string // ISO string format (e.g., '2025-07-05T00:00:00Z')
+  date: string
   visibility: 'public' | 'internal'
   tags?: string[]
   highlighted?: boolean
-  uploadedBy?: string // MongoDB ObjectId as string
+  uploadedBy?: string
 }
 
 export interface IUpdateGallery extends ICreateGallery {

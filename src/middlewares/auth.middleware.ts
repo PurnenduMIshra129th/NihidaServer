@@ -1,8 +1,8 @@
-import jwt from 'jsonwebtoken'
+import jwt, { TokenExpiredError } from 'jsonwebtoken'
 import { Request, Response, NextFunction } from 'express'
 import { extractToken, nonTokenizedRoutes } from '../utils/utils'
 import { ErrorResponse } from '../utils/apiResponse'
-import { jwtSecret } from '../utils/constant'
+import { currentEnv, jwtSecret } from '../utils/constant'
 
 declare global {
   namespace Express {
@@ -19,7 +19,7 @@ export const authMiddleware = (
 ) => {
   try {
     const { path } = req
-
+    if (currentEnv === 'local') return next()
     if (nonTokenizedRoutes.includes(path)) {
       return next()
     }
@@ -32,6 +32,13 @@ export const authMiddleware = (
     req.user = decoded
     next()
   } catch (error) {
+    if (error instanceof TokenExpiredError) {
+      return new ErrorResponse(
+        401,
+        'Session expired. Please log in again.',
+      ).send(res)
+    }
+
     return new ErrorResponse(500, error).send(res)
   }
 }

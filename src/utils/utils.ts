@@ -102,34 +102,42 @@ export const nonTokenizedRoutes = [
   '/favicon.ico',
   `${baseUrl}/authentication/login`,
   `${baseUrl}/authentication/signUp`,
-  `${baseUrl}/blog/getAllBlog`,
-  `${baseUrl}/carousel/getAllCarousel`,
-  `${baseUrl}/media/getAllMedia`,
   `${baseUrl}/news/getAllNews`,
-  `${baseUrl}/productAndService/getAllProductAndService`,
-  `${baseUrl}/socialLink/getAllSocialLink`,
+  `${baseUrl}/socialLinkAndCommonImage/getAllSocialLinkAndCommonImage`,
   `${baseUrl}/video/getAllVideo`,
   `${baseUrl}/focusActivity/getAllFocusActivity`,
   `${baseUrl}/upcomingEvent/getAllUpcomingEvent`,
+  `${baseUrl}/document/getAllDocument`,
+  `${baseUrl}/gallery/getAllGallery`,
+  `${baseUrl}/news/getAllNews`,
+  `${baseUrl}/video/getAllVideo`,
 ]
 export const nonAdminRoutes = [
   '/favicon.ico',
   `${baseUrl}/authentication/login`,
   `${baseUrl}/authentication/signUp`,
-  `${baseUrl}/blog/getAllBlog`,
-  `${baseUrl}/blog/getBlogById/:id`,
-  `${baseUrl}/carousel/getAllCarousel`,
-  `${baseUrl}/media/getAllMedia`,
-  `${baseUrl}/media/getMediaById/:id`,
-  `${baseUrl}/news/getAllNews`,
-  `${baseUrl}/news/getNewsById/:id`,
-  `${baseUrl}/productAndService/getAllProduc\tAndService`,
-  `${baseUrl}/socialLink/getAllSocialLink`,
-  `${baseUrl}/video/getAllVideo`,
+  `${baseUrl}/authentication/getUser`,
+
+  `${baseUrl}/socialLinkAndCommonImage/getAllSocialLinkAndCommonImage`,
+  `${baseUrl}/socialLinkAndCommonImage/getSocialLinkAndCommonImageById/:id`,
+
   `${baseUrl}/focusActivity/getAllFocusActivity`,
   `${baseUrl}/focusActivity/getFocusActivityById/:id`,
+
   `${baseUrl}/upcomingEvent/getAllUpcomingEvent`,
   `${baseUrl}/upcomingEvent/getUpcomingEventById/:id`,
+
+  `${baseUrl}/document/getAllDocument`,
+  `${baseUrl}/document/getDocumentById/:id`,
+
+  `${baseUrl}/gallery/getAllGallery`,
+  `${baseUrl}/gallery/getGalleryById/:id`,
+
+  `${baseUrl}/video/getAllVideo`,
+  `${baseUrl}/video/getVideoById/:id`,
+
+  `${baseUrl}/news/getAllNews`,
+  `${baseUrl}/news/getNewsById/:id`,
 ]
 export const cachedEndpoints = [
   '/favicon.ico',

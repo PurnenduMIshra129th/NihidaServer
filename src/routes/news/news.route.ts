@@ -11,11 +11,7 @@ import {
 const newsRouter = Router()
 
 newsRouter.post('/createNews', validateInputs(newsDTO), createNewsController)
-newsRouter.post(
-  '/updateNews/:id',
-  validateInputs(newsDTO),
-  updateNewsController,
-)
+newsRouter.put('/updateNews/:id', validateInputs(newsDTO), updateNewsController)
 newsRouter.delete('/deleteNews/:id', deleteNewsController)
 
 newsRouter.get('/getAllNews', getAllNewsController)

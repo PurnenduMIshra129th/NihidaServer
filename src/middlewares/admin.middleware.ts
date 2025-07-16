@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken'
 import { Request, Response, NextFunction } from 'express'
 import { extractToken, matchRoute, nonAdminRoutes } from '../utils/utils'
 import { ErrorResponse } from '../utils/apiResponse'
-import { jwtSecret, role } from '../utils/constant'
+import { currentEnv, jwtSecret, role } from '../utils/constant'
 
 export const adminMiddleware = (
   req: Request,
@@ -10,6 +10,7 @@ export const adminMiddleware = (
   next: NextFunction,
 ) => {
   try {
+    if (currentEnv === 'local') return next()
     const isNonAdminRoute = nonAdminRoutes.some((routePattern) =>
       matchRoute(routePattern, req.path),
     )

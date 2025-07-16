@@ -17,16 +17,13 @@ export const baseUrl = '/NIHIDA'
 export const uploadsFolder = '/uploads/'
 export const uploadDir = path.join(__dirname, `../../${uploadsFolder}`)
 export const uploadSubFolder = {
-  mediaDir: `/mediaUploads/`,
-  blogDir: `/blogUploads/`,
   newsDir: `/newsUploads/`,
-  productAndServiceDir: `/productAndServiceUploads/`,
   videoDir: `/videoUploads/`,
-  carousalDir: `/carousalUploads/`,
   focusActivityDir: `/focusActivityUploads/`,
   upcomingEventDir: `/upcomingEventUploads/`,
   documentDir: `/documentUploads/`,
   galleryDir: `/galleryUploads/`,
+  socialLinkAndCommonImageDir: `/socialLinkAndCommonImageUploads/`,
 }
 export const role = {
   user: 'user',
@@ -52,7 +49,7 @@ export const environmentConfig: Record<EnvKey, EnvironmentConfig> = {
       'mongodb+srv://purnendumishra129th:C6aMOcsZTkBtF4iZ@nihida.28reeua.mongodb.net/?retryWrites=true&w=majority&appName=NIHIDA',
   },
   prod: {
-    corsEndpoints: ['https://nihidafrontend.onrender.com'],
+    corsEndpoints: ['https://nihida.org.in'],
     serverURL: 'https://nihidaapi.onrender.com',
     databaseConnectionString:
       'mongodb+srv://purnendumishra129th:C6aMOcsZTkBtF4iZ@nihida.28reeua.mongodb.net/?retryWrites=true&w=majority&appName=NIHIDA',

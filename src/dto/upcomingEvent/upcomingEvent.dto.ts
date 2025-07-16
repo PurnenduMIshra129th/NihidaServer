@@ -26,11 +26,14 @@ export const upcomingEventDTO = [
   body('tags.*').optional().isString().withMessage('Each tag must be a string'),
 
   body('cta.label')
-    .optional()
+    .optional({ checkFalsy: true })
     .isString()
     .withMessage('CTA label must be a string'),
 
-  body('cta.url').optional().isURL().withMessage('CTA URL must be a valid URL'),
+  body('cta.url')
+    .optional({ checkFalsy: true })
+    .isURL()
+    .withMessage('CTA URL must be a valid URL'),
 
   body('impactGoals')
     .optional()
