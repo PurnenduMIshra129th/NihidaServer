@@ -14,10 +14,9 @@ export const invalidateCacheMiddleware = async (
 
     if (!entity) return next()
 
-    // Find all keys that match the entity pattern
-    const pattern = `*/${entity}/*`
-    const keysToInvalidate = await redisClient.keys(pattern)
-
+    // const pattern = `*/${entity}/*`
+    const keysToInvalidate = await redisClient.keys('*')
+    // const keysToInvalidate = await redisClient.keys(pattern)
     if (keysToInvalidate.length > 0) {
       redisClient.del(keysToInvalidate)
       console.log('Cache invalidated for keys:', keysToInvalidate)

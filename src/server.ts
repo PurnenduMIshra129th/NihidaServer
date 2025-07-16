@@ -18,7 +18,7 @@ const initializeServer = async () => {
   try {
     await dbConnect()
     await initializeAdmin()
-    await startRedis()
+    // await startRedis()
 
     const app = express()
     const corsTargetEndpoint = getEnvValue(currentEnv, 'corsEndpoints')
@@ -33,25 +33,31 @@ const initializeServer = async () => {
     )
 
     app.use(logMiddleware)
-    app.use('/uploads', express.static('uploads'))
+    app.use(
+      '/uploads',
+      express.static('uploads', {
+        maxAge: '30d',
+        immutable: true,
+      }),
+    )
     app.use(authMiddleware)
     app.use(adminMiddleware)
     app.use(express.json())
     app.use(compression())
-    app.use(invalidateCacheMiddleware)
-    app.use((req: Request, res: Response, next: NextFunction) => {
-      const shouldCache =
-        req.method === 'GET' &&
-        cachedEndpoints.some((routePattern) =>
-          doesRouteMatch(routePattern, req.path),
-        )
+    // app.use(invalidateCacheMiddleware)
+    // app.use((req: Request, res: Response, next: NextFunction) => {
+    //   const shouldCache =
+    //     req.method === 'GET' &&
+    //     cachedEndpoints.some((routePattern) =>
+    //       doesRouteMatch(routePattern, req.path),
+    //     )
 
-      if (shouldCache) {
-        return redisCacheMiddleware(300)(req, res, next)
-      }
+    //   if (shouldCache) {
+    //     return redisCacheMiddleware(300)(req, res, next)
+    //   }
 
-      next()
-    })
+    //   next()
+    // })
     app.get('/', (req, res) => {
       res.send('Nihida API is running')
     })
