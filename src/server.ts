@@ -6,13 +6,11 @@ import cors from 'cors'
 import { authMiddleware } from './middlewares/auth.middleware'
 import { baseUrl, currentEnv, port } from './utils/constant'
 import { adminMiddleware } from './middlewares/admin.middleware'
-import { cachedEndpoints, doesRouteMatch, getEnvValue } from './utils/utils'
+import { getEnvValue } from './utils/utils'
 import { initializeAdmin } from './config/authentication'
 import { ErrorResponse } from './utils/apiResponse'
-import { redisCacheMiddleware, startRedis } from './config/redis'
-import { invalidateCacheMiddleware } from './middlewares/invalidateCache.middleware'
-import { Request, Response, NextFunction } from 'express'
 import compression from 'compression'
+import { EnvKey } from './types/utils/utils.type'
 
 const initializeServer = async () => {
   try {
@@ -21,7 +19,10 @@ const initializeServer = async () => {
     // await startRedis()
 
     const app = express()
-    const corsTargetEndpoint = getEnvValue(currentEnv, 'corsEndpoints')
+    const corsTargetEndpoint = getEnvValue(
+      currentEnv as EnvKey,
+      'corsEndpoints',
+    )
 
     app.use(
       cors({

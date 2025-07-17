@@ -14,7 +14,7 @@ export const constructImagePath = (
   subFolder: string,
   fileName: string | undefined,
 ) => {
-  const serverAddress = getEnvValue(currentEnv, 'serverURL')
+  const serverAddress = getEnvValue(currentEnv as EnvKey, 'serverURL')
 
   let imagePath = ''
   if (serverAddress && uploadsFolder && subFolder && fileName) {
