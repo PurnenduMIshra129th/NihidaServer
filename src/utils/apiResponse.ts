@@ -5,13 +5,11 @@ import Logger from './logger'
 class SuccessResponse<T> {
   statusCode: number
   message: string
-  isCached?: boolean
   data: T
 
-  constructor(message: string, data: T, isCached = false) {
+  constructor(message: string, data: T) {
     this.statusCode = 1
     this.message = message
-    this.isCached = isCached
     this.data = data
   }
 

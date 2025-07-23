@@ -15,6 +15,7 @@ export const updateVideoService = async (data: IUpdateVideo) => {
       tags,
       highlighted,
       uploadedBy,
+      youtubeUrl,
     } = data
 
     const video = await videoModel.findById(id)
@@ -29,6 +30,7 @@ export const updateVideoService = async (data: IUpdateVideo) => {
     if (tags) video.tags = tags
     if (highlighted) video.highlighted = highlighted
     if (uploadedBy) video.uploadedBy = new mongoose.Types.ObjectId(uploadedBy)
+    if (youtubeUrl) video.youtubeUrl = youtubeUrl
 
     await video.save()
     return sendSuccessData('Video updated successfully', video)

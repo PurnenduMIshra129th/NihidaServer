@@ -1,7 +1,6 @@
 import { Request, Response } from 'express'
 import { ErrorResponse, SuccessResponse } from '../../utils/apiResponse'
-import path from 'path'
-import { constructImagePath, deleteFileIfExists } from '../../utils/utils'
+import { deleteFileIfExists } from '../../utils/utils'
 import mongoose from 'mongoose'
 import { IFile } from '../../types/utils/utils.type'
 
@@ -35,24 +34,21 @@ export const uploadController =
 
       let files
       if (isMultiple) {
-        files = req.files as Express.Multer.File[]
+        files = req?.files as unknown as IFile[]
       } else {
-        files = req.file as Express.Multer.File
+        files = req?.file as unknown as IFile
       }
       if (!files || (Array.isArray(files) && files.length === 0)) {
         return new ErrorResponse(400, 'At least one file is required').send(res)
       }
       const fileArray = Array.isArray(files) ? files : [files]
-      const uploadContext = {
-        folder: path.basename(path.dirname(fileArray[0].path)),
-      }
 
-      const fileDetails = fileArray.map((file) => ({
-        fileName: file.filename,
-        originalName: file.originalname,
-        mimeType: file.mimetype,
-        serverFilePath: file.path,
-        publicFilePath: constructImagePath(uploadContext.folder, file.filename),
+      const fileDetails = fileArray.map((file: IFile) => ({
+        fileName: file.fileName,
+        originalName: file.originalName,
+        mimeType: file.mimeType,
+        serverFilePath: file.serverFilePath,
+        publicFilePath: file.publicFilePath,
       }))
       existingDoc.files = [...(existingDoc.files || []), ...fileDetails]
       await existingDoc.save()
@@ -201,21 +197,20 @@ export const updateUploadFileController =
       }
 
       // Handle new uploaded file (from middleware)
-      const uploadedFile = req.file as Express.Multer.File
+      const uploadedFile = req.file as unknown as IFile
       if (!uploadedFile) {
         return new ErrorResponse(400, 'No file uploaded for replacement').send(
           res,
         )
       }
 
-      const folder = path.basename(path.dirname(uploadedFile.path))
       const newFileMeta: IFile = {
         _id: fileID, // Keep the same ID to avoid breaking references
-        fileName: uploadedFile.filename,
-        originalName: uploadedFile.originalname,
-        mimeType: uploadedFile.mimetype,
-        serverFilePath: uploadedFile.path,
-        publicFilePath: constructImagePath(folder, uploadedFile.filename),
+        fileName: uploadedFile.fileName,
+        originalName: uploadedFile.originalName,
+        mimeType: uploadedFile.mimeType,
+        serverFilePath: uploadedFile.serverFilePath,
+        publicFilePath: uploadedFile.publicFilePath,
       }
 
       // Delete previous file from server

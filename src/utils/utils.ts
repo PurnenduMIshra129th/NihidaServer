@@ -9,6 +9,7 @@ import path from 'path'
 import fs from 'fs'
 import { pathToRegexp } from 'path-to-regexp'
 import { EnvironmentConfig, EnvKey } from '../types/utils/utils.type'
+import sharp from 'sharp'
 
 export const constructImagePath = (
   subFolder: string,
@@ -98,6 +99,15 @@ export const doesRouteMatch = (pattern: string, path: string): boolean => {
   const regex = pathToRegexp(pattern)
   return regex.regexp.test(path)
 }
+export const getImageMetadata = async (filePath: string) => {
+  const { size } = fs.statSync(filePath)
+  const { width, height } = await sharp(filePath).metadata()
+  return {
+    sizeKB: +(size / 1024).toFixed(2),
+    resolution: `${width}x${height}`,
+  }
+}
+
 export const nonTokenizedRoutes = [
   '/favicon.ico',
   `${baseUrl}/authentication/login`,

@@ -37,7 +37,7 @@ const initializeServer = async () => {
     app.use(
       '/uploads',
       express.static('uploads', {
-        maxAge: '30d',
+        maxAge: '365d',
         immutable: true,
       }),
     )

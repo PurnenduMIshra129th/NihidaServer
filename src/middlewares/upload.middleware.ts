@@ -5,6 +5,10 @@ import { ErrorResponse } from '../utils/apiResponse'
 import { ensureUploadDirExists } from '../utils/uploadDirectory'
 import { uploadDir } from '../utils/constant'
 import path = require('path')
+import sharp = require('sharp')
+import fs from 'fs'
+import { v4 as uuidv4 } from 'uuid'
+import { constructImagePath } from '../utils/utils'
 
 ensureUploadDirExists()
 
@@ -27,6 +31,28 @@ const createFileFilter = (type: AllowedFileType) => {
     }
   }
 }
+const processFile = async (file: Express.Multer.File, targetDir: string) => {
+  const ext = file.mimetype === 'application/pdf' ? 'pdf' : 'webp'
+  const uniqueName = `${uuidv4()}.${ext}`
+  const outputPath = path.join(targetDir, uniqueName)
+
+  if (file.mimetype.startsWith('image/')) {
+    await sharp(file.buffer)
+      .toFormat('webp', { quality: 60 })
+      .resize({ width: 800 })
+      .toFile(outputPath)
+  } else if (file.mimetype === 'application/pdf') {
+    fs.writeFileSync(outputPath, file.buffer)
+  }
+
+  return {
+    fileName: uniqueName,
+    originalName: file.originalname,
+    mimeType: file.mimetype,
+    serverFilePath: outputPath,
+    publicFilePath: constructImagePath(path.basename(targetDir), uniqueName),
+  }
+}
 const uploadMiddleware = (
   subFolder: string,
   isMultiple: boolean = true,
@@ -35,28 +61,7 @@ const uploadMiddleware = (
 ) => {
   return (req: Request, res: Response, next: NextFunction) => {
     try {
-      const dynamicUploadDir = path.join(uploadDir, subFolder)
-      const storage = multer.diskStorage({
-        destination: (
-          req: Request,
-          file: Express.Multer.File,
-          cb: (error: Error | null, destination: string) => void,
-        ) => {
-          cb(null, dynamicUploadDir)
-        },
-        filename: (
-          req: Request,
-          file: Express.Multer.File,
-          cb: (error: Error | null, filename: string) => void,
-        ) => {
-          try {
-            const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`
-            cb(null, `${uniqueSuffix}-${file.originalname}`)
-          } catch (error) {
-            throw error
-          }
-        },
-      })
+      const storage = multer.memoryStorage()
       let upload
       const fileFilter = createFileFilter(allowedFileTypes)
       if (isMultiple) {
@@ -73,7 +78,7 @@ const uploadMiddleware = (
         }).single(`${fieldName}`)
       }
 
-      upload(req, res, (err: any) => {
+      upload(req, res, async (err: any) => {
         if (err) {
           if (err.code === 'LIMIT_UNEXPECTED_FILE') {
             return new ErrorResponse(
@@ -93,8 +98,25 @@ const uploadMiddleware = (
           // Generic fallback
           return new ErrorResponse(400, err).send(res)
         }
+        try {
+          const dynamicUploadDir = path.join(uploadDir, subFolder)
 
-        next()
+          if (isMultiple && req.files) {
+            const processedFiles = await Promise.all(
+              (req.files as Express.Multer.File[]).map((file) =>
+                processFile(file, dynamicUploadDir),
+              ),
+            )
+            ;(req as any).files = processedFiles
+          } else if (req.file) {
+            const processedFile = await processFile(req.file, dynamicUploadDir)
+            ;(req as any).file = processedFile
+          }
+
+          next()
+        } catch (error) {
+          return new ErrorResponse(500, error).send(res)
+        }
       })
     } catch (error) {
       return new ErrorResponse(500, error).send(res)
