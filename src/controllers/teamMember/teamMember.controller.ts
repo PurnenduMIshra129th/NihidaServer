@@ -2,37 +2,41 @@ import { Request, Response } from 'express'
 import { ErrorResponse, SuccessResponse } from '../../utils/apiResponse'
 import mongoose from 'mongoose'
 import ErrorCodes from '../../utils/errorCodes'
-import { createFocusActivityService } from '../../services/focusActivity/createFocusActivity.service'
-import { updateFocusActivityService } from '../../services/focusActivity/updateFocusActivity.service'
-import { focusActivityModel } from '../../schema/focusActivity/focusActivity.schema'
-import { deleteFocusActivityService } from '../../services/focusActivity/deleteFocusActivity.service'
+import { teamMemberModel } from '../../schema/teamMember/teamMember.schema'
+import { createTeamMemberService } from '../../services/teamMember/createTeamMember.service'
+import { deleteTeamMemberService } from '../../services/teamMember/deleteTeamMember.service'
+import { updateTeamMemberService } from '../../services/teamMember/updateTeamMember.service'
 
-export const createFocusActivityController = async (
+export const createTeamMemberController = async (
   req: Request,
   res: Response,
 ) => {
   try {
     const {
-      title,
-      subtitle,
-      description,
-      impactStats,
-      testimonials,
-      location,
-      fromDate,
-      toDate,
+      name,
+      designation,
+      bio,
+      contact,
+      socials,
+      focusArea,
+      dateJoined,
+      tags,
+      visibility,
+      createdBy,
     } = req?.body
     const argObj = {
-      title,
-      subtitle,
-      description,
-      impactStats,
-      testimonials,
-      location,
-      fromDate,
-      toDate,
+      name,
+      designation,
+      bio,
+      contact,
+      socials,
+      focusArea,
+      dateJoined,
+      tags,
+      visibility,
+      createdBy,
     }
-    const result = await createFocusActivityService(argObj)
+    const result = await createTeamMemberService(argObj)
     if (result instanceof SuccessResponse && result.statusCode === 1) {
       return new SuccessResponse(result.message, result.data).send(res)
     } else if (result instanceof ErrorResponse) {
@@ -46,38 +50,42 @@ export const createFocusActivityController = async (
   }
 }
 
-export const updateFocusActivityController = async (
+export const updateTeamMemberController = async (
   req: Request,
   res: Response,
 ) => {
   try {
     const { id } = req.params
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return new ErrorResponse(400, 'Invalid focusActivity ID format').send(res)
+      return new ErrorResponse(400, 'Invalid teamMember ID format').send(res)
     }
     const {
-      title,
-      subtitle,
-      description,
-      impactStats,
-      testimonials,
-      location,
-      fromDate,
-      toDate,
+      name,
+      designation,
+      bio,
+      contact,
+      socials,
+      focusArea,
+      dateJoined,
+      tags,
+      visibility,
+      createdBy,
     } = req.body
 
     const argObj = {
       id,
-      title,
-      subtitle,
-      description,
-      impactStats,
-      testimonials,
-      location,
-      fromDate,
-      toDate,
+      name,
+      designation,
+      bio,
+      contact,
+      socials,
+      focusArea,
+      dateJoined,
+      tags,
+      visibility,
+      createdBy,
     }
-    const result = await updateFocusActivityService(argObj)
+    const result = await updateTeamMemberService(argObj)
     if (result instanceof SuccessResponse && result.statusCode === 1) {
       return new SuccessResponse(result.message, result.data).send(res)
     } else if (result instanceof ErrorResponse) {
@@ -90,19 +98,19 @@ export const updateFocusActivityController = async (
     return new ErrorResponse(500, error).send(res)
   }
 }
-export const deleteFocusActivityController = async (
+export const deleteTeamMemberController = async (
   req: Request,
   res: Response,
 ) => {
   try {
     const { id } = req.params
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return new ErrorResponse(400, 'Invalid focusActivity ID format').send(res)
+      return new ErrorResponse(400, 'Invalid teamMember ID format').send(res)
     }
     const argObj = {
       id,
     }
-    const result = await deleteFocusActivityService(argObj)
+    const result = await deleteTeamMemberService(argObj)
     if (result instanceof SuccessResponse && result.statusCode === 1) {
       return new SuccessResponse(result.message, result.data).send(res)
     } else if (result instanceof ErrorResponse) {
@@ -116,28 +124,23 @@ export const deleteFocusActivityController = async (
   }
 }
 
-export const getAllFocusActivitysController = async (
-  _: Request,
-  res: Response,
-) => {
+export const getAllTeamMemberController = async (_: Request, res: Response) => {
   try {
-    const focusActivityList = await focusActivityModel
-      .find()
-      .sort({ createdAt: -1 })
-    if (focusActivityList?.length > 0) {
+    const teamMemberList = await teamMemberModel.find().sort({ createdAt: -1 })
+    if (teamMemberList?.length > 0) {
       return new SuccessResponse(
-        'FocusActivitys retrieved successfully',
-        focusActivityList,
+        'TeamMember retrieved successfully',
+        teamMemberList,
       ).send(res)
     } else {
-      return new ErrorResponse(404, 'FocusActivitys not found').send(res)
+      return new ErrorResponse(404, 'TeamMember not found').send(res)
     }
   } catch (error) {
     return new ErrorResponse(500, error).send(res)
   }
 }
 
-export const getFocusActivityByIdController = async (
+export const getTeamMemberByIdController = async (
   req: Request,
   res: Response,
 ) => {
@@ -145,17 +148,17 @@ export const getFocusActivityByIdController = async (
     const { id } = req.params
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return new ErrorResponse(400, 'Invalid focusActivity ID format').send(res)
+      return new ErrorResponse(400, 'Invalid teamMember ID format').send(res)
     }
 
-    const focusActivity = await focusActivityModel.findById(id)
-    if (!focusActivity) {
-      return new ErrorResponse(404, 'FocusActivity not found').send(res)
+    const teamMember = await teamMemberModel.findById(id)
+    if (!teamMember) {
+      return new ErrorResponse(404, 'TeamMember not found').send(res)
     }
 
     return new SuccessResponse(
-      'FocusActivity retrieved successfully',
-      focusActivity,
+      'TeamMember retrieved successfully',
+      teamMember,
     ).send(res)
   } catch (error) {
     return new ErrorResponse(500, error).send(res)

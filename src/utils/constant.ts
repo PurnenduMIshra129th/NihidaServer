@@ -26,6 +26,7 @@ export const uploadSubFolder = {
   documentDir: `/documentUploads/`,
   galleryDir: `/galleryUploads/`,
   socialLinkAndCommonImageDir: `/socialLinkAndCommonImageUploads/`,
+  teamMemberDir: `/teamMemberUploads/`,
 }
 export const role = {
   user: 'user',

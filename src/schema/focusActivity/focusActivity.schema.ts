@@ -32,7 +32,8 @@ const focusActivitySchema = new mongoose.Schema(
     ],
 
     location: { type: String, index: true },
-    date: { type: Date },
+    fromDate: { type: Date, required: true },
+    toDate: { type: Date, required: true },
   },
   { timestamps: true },
 )

@@ -6,7 +6,9 @@ const upcomingEventSchema = new mongoose.Schema(
     subtitle: { type: String }, // optional tagline
     description: { type: String, required: true },
 
-    date: { type: Date, required: true },
+    fromDate: { type: Date, required: true },
+    toDate: { type: Date, required: true },
+
     location: { type: String, required: true },
 
     files: [

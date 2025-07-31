@@ -5,11 +5,17 @@ export const upcomingEventDTO = [
 
   body('description').trim().notEmpty().withMessage('Description is required'),
 
-  body('date')
+  body('fromDate')
     .notEmpty()
-    .withMessage('Event date is required')
+    .withMessage('From date is required')
     .isISO8601()
-    .withMessage('Invalid date format'),
+    .withMessage('From date must be a valid ISO date'),
+
+  body('toDate')
+    .notEmpty()
+    .withMessage('To date is required')
+    .isISO8601()
+    .withMessage('To date must be a valid ISO date'),
 
   body('location').trim().notEmpty().withMessage('Location is required'),
 

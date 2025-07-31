@@ -2,7 +2,8 @@ export interface ICreateUpcomingEvent {
   title: string
   subtitle?: string
   description: string
-  date: string
+  fromDate: Date
+  toDate: Date
   location: string
   tags?: string[]
   cta?: {

@@ -13,7 +13,8 @@ export const createFocusActivityService = async (
       impactStats,
       testimonials,
       location,
-      date,
+      fromDate,
+      toDate,
     } = data
 
     const FocusActivity = new focusActivityModel({
@@ -23,7 +24,8 @@ export const createFocusActivityService = async (
       impactStats,
       testimonials,
       location,
-      date,
+      fromDate,
+      toDate,
     })
 
     await FocusActivity.save()

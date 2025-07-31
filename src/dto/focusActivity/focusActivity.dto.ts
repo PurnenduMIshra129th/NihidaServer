@@ -56,5 +56,15 @@ export const focusActivityDTO = [
 
   body('location').optional().isString(),
 
-  body('date').optional().isString(),
+  body('fromDate')
+    .notEmpty()
+    .withMessage('From date is required')
+    .isISO8601()
+    .withMessage('From date must be a valid ISO date'),
+
+  body('toDate')
+    .notEmpty()
+    .withMessage('To date is required')
+    .isISO8601()
+    .withMessage('To date must be a valid ISO date'),
 ]

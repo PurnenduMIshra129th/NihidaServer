@@ -14,7 +14,8 @@ export const updateFocusActivityService = async (
       impactStats,
       testimonials,
       location,
-      date,
+      fromDate,
+      toDate,
     } = data
 
     const focusActivity = await focusActivityModel.findById(id)
@@ -27,8 +28,8 @@ export const updateFocusActivityService = async (
     if (impactStats) focusActivity.impactStats = impactStats as any
     if (testimonials) focusActivity.testimonials = testimonials as any
     if (location) focusActivity.location = location
-    if (date) focusActivity.date = new Date(date)
-
+    if (fromDate) focusActivity.fromDate = fromDate
+    if (toDate) focusActivity.toDate = toDate
     await focusActivity.save()
     return sendSuccessData('FocusActivity updated successfully', focusActivity)
   } catch (error) {

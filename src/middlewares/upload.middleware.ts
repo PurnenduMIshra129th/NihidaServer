@@ -38,7 +38,7 @@ const processFile = async (file: Express.Multer.File, targetDir: string) => {
 
   if (file.mimetype.startsWith('image/')) {
     await sharp(file.buffer)
-      .toFormat('webp', { quality: 60 })
+      .toFormat('webp', { quality: 80 })
       .resize({ width: 800 })
       .toFile(outputPath)
   } else if (file.mimetype === 'application/pdf') {

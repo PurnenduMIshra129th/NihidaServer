@@ -11,7 +11,8 @@ export const updateUpcomingEventService = async (
       title,
       subtitle,
       description,
-      date,
+      fromDate,
+      toDate,
       location,
       tags,
       cta,
@@ -33,7 +34,8 @@ export const updateUpcomingEventService = async (
     if (contactPerson) upcomingEvent.contactPerson = contactPerson
     if (status) upcomingEvent.status = status
     if (location) upcomingEvent.location = location
-    if (date) upcomingEvent.date = new Date(date)
+    if (fromDate) upcomingEvent.fromDate = fromDate
+    if (toDate) upcomingEvent.toDate = toDate
 
     await upcomingEvent.save()
     return sendSuccessData('UpcomingEvent updated successfully', upcomingEvent)

@@ -17,7 +17,8 @@ export interface ICreateFocusActivity {
   impactStats: IImpactStat[]
   testimonials?: ITestimonial[]
   location?: string
-  date?: string | Date
+  fromDate: Date
+  toDate: Date
 }
 export interface IUpdateFocusActivity extends ICreateFocusActivity {
   id: string

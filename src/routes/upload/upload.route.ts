@@ -14,6 +14,7 @@ import { galleryModel } from '../../schema/gallery/gallery.schema'
 import { newsModel } from '../../schema/news/news.schema'
 import { videoModel } from '../../schema/video/video.schema'
 import { socialLinkAndCommonImageModel } from '../../schema/socialLinkAndCommonImage/socialLinkAndCommonImage.schema'
+import { teamMemberModel } from '../../schema/teamMember/teamMember.schema'
 const uploadRouter = Router()
 
 uploadRouter.post(
@@ -132,6 +133,24 @@ uploadRouter.post(
 uploadRouter.delete(
   '/deleteSocialLinkAndCommonImageFile',
   deleteUploadFileController(socialLinkAndCommonImageModel),
+)
+
+uploadRouter.post(
+  '/createTeamMemberImageFile',
+  validateUploadTarget(teamMemberModel),
+  uploadMiddleware(uploadSubFolder.teamMemberDir, true),
+  uploadController(teamMemberModel, true),
+)
+uploadRouter.post(
+  '/updateTeamMemberImageFile',
+  validateUploadTarget(teamMemberModel),
+  uploadMiddleware(uploadSubFolder.teamMemberDir, false),
+  updateUploadFileController(teamMemberModel),
+)
+
+uploadRouter.delete(
+  '/deleteTeamMemberImageFile',
+  deleteUploadFileController(teamMemberModel),
 )
 
 export default uploadRouter
