@@ -15,12 +15,12 @@ export const teamMemberDTO = [
     .withMessage('Phone number must be a string'),
 
   body('socials.linkedin')
-    .optional()
+    .optional({ checkFalsy: true })
     .isURL()
     .withMessage('LinkedIn URL must be valid'),
 
   body('socials.twitter')
-    .optional()
+    .optional({ checkFalsy: true })
     .isURL()
     .withMessage('Twitter URL must be valid'),
 
