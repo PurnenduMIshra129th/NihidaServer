@@ -15,6 +15,7 @@ import { newsModel } from '../../schema/news/news.schema'
 import { videoModel } from '../../schema/video/video.schema'
 import { socialLinkAndCommonImageModel } from '../../schema/socialLinkAndCommonImage/socialLinkAndCommonImage.schema'
 import { teamMemberModel } from '../../schema/teamMember/teamMember.schema'
+import { partnerModel } from '../../schema/partner/partner.schema'
 const uploadRouter = Router()
 
 uploadRouter.post(
@@ -150,6 +151,24 @@ uploadRouter.post(
 
 uploadRouter.delete(
   '/deleteTeamMemberImageFile',
+  deleteUploadFileController(teamMemberModel),
+)
+
+uploadRouter.post(
+  '/createPartnerImageFile',
+  validateUploadTarget(partnerModel),
+  uploadMiddleware(uploadSubFolder.partnerDir, true),
+  uploadController(partnerModel, true),
+)
+uploadRouter.post(
+  '/updatePartnerImageFile',
+  validateUploadTarget(partnerModel),
+  uploadMiddleware(uploadSubFolder.partnerDir, false),
+  updateUploadFileController(partnerModel),
+)
+
+uploadRouter.delete(
+  '/deletePartnerImageFile',
   deleteUploadFileController(teamMemberModel),
 )
 

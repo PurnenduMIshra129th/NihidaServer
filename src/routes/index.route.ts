@@ -10,6 +10,8 @@ import galleryRouter from './gallery/gallery.route'
 import socialLinkAndCommonImageRouter from './socialLinkAndCommonImage/socialLinkAndCommonImage.route'
 import optimizeImageRouter from './optimizeImages/optmizeImages.route'
 import teamMemberRouter from './teamMember/teamMember.route'
+import partnerRouter from './partner/partner.route'
+import contactUsRouter from './contactUs/contactUs.route'
 
 const indexRouter = Router()
 indexRouter.use('/upload', uploadRouter)
@@ -23,5 +25,7 @@ indexRouter.use('/gallery', galleryRouter)
 indexRouter.use('/socialLinkAndCommonImage', socialLinkAndCommonImageRouter)
 indexRouter.use('/optimize', optimizeImageRouter)
 indexRouter.use('/teamMember', teamMemberRouter)
+indexRouter.use('/partner', partnerRouter)
+indexRouter.use('/contactUs', contactUsRouter)
 
 export default indexRouter
