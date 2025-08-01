@@ -122,6 +122,7 @@ export const nonTokenizedRoutes = [
   `${baseUrl}/news/getAllNews`,
   `${baseUrl}/video/getAllVideo`,
   `${baseUrl}/teamMember/getAllTeamMember`,
+  `${baseUrl}/teamMember/getTeamMemberById/:id`,
 ]
 export const nonAdminRoutes = [
   '/favicon.ico',
