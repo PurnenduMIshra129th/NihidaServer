@@ -169,7 +169,7 @@ uploadRouter.post(
 
 uploadRouter.delete(
   '/deletePartnerImageFile',
-  deleteUploadFileController(teamMemberModel),
+  deleteUploadFileController(partnerModel),
 )
 
 export default uploadRouter

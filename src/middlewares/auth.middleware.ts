@@ -1,8 +1,12 @@
 import jwt, { TokenExpiredError } from 'jsonwebtoken'
 import { Request, Response, NextFunction } from 'express'
-import { extractToken, nonTokenizedRoutes } from '../utils/utils'
+import {
+  doesRouteMatch,
+  extractToken,
+  nonTokenizedRoutes,
+} from '../utils/utils'
 import { ErrorResponse } from '../utils/apiResponse'
-import { currentEnv, jwtSecret } from '../utils/constant'
+import { isTurnOnTokenization, jwtSecret } from '../utils/constant'
 
 declare global {
   namespace Express {
@@ -19,10 +23,11 @@ export const authMiddleware = (
 ) => {
   try {
     const { path } = req
-    if (currentEnv === 'local') return next()
-    if (nonTokenizedRoutes.includes(path)) {
+    if (!isTurnOnTokenization) return next()
+    if (nonTokenizedRoutes.some((route) => doesRouteMatch(route, path))) {
       return next()
     }
+
     const token = extractToken(req)
     if (!token)
       return new ErrorResponse(401, 'User must be logged in to access').send(

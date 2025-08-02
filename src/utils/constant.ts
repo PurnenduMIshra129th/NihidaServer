@@ -13,6 +13,8 @@ export const adminPassword = process.env.ADMIN_PASSWORD || ''
 export const jwtExpiration = '1h'
 export const currentEnv = process.env.NODE_ENV || 'local'
 export const redisURL = process.env.REDIS_URL || 'redis://127.0.0.1:6379'
+export const isTurnOnTokenization = true
+export const isTurnOnAdminControl = true
 
 export const port = 3000
 export const baseUrl = '/NIHIDA'

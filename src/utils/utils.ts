@@ -124,6 +124,8 @@ export const nonTokenizedRoutes = [
   `${baseUrl}/teamMember/getAllTeamMember`,
   `${baseUrl}/teamMember/getTeamMemberById/:id`,
   `${baseUrl}/contactUs/getAllContactUs`,
+  `${baseUrl}/partner/getAllPartner`,
+  `${baseUrl}/partner/getPartnerById/:id`,
 ]
 export const nonAdminRoutes = [
   '/favicon.ico',
@@ -154,6 +156,9 @@ export const nonAdminRoutes = [
 
   `${baseUrl}/teamMember/getAllTeamMember`,
   `${baseUrl}/teamMember/getTeamMemberById/:id`,
+
+  `${baseUrl}/partner/getAllPartner`,
+  `${baseUrl}/partner/getPartnerById/:id`,
 
   `${baseUrl}/contactUs/getAllContactUs`,
 ]
