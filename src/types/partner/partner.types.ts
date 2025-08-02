@@ -15,11 +15,11 @@ export interface ICreatePartner {
     phone?: string
   }
 
-  partnershipStart?: string // ISO8601 date
+  partnershipStart?: string
   partnershipEnd?: string
 
   tags?: string[]
-  createdBy?: string // Mongo ObjectId as string
+  createdBy?: string
 }
 export interface IDeletePartner {
   id: string

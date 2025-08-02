@@ -123,6 +123,7 @@ export const nonTokenizedRoutes = [
   `${baseUrl}/video/getAllVideo`,
   `${baseUrl}/teamMember/getAllTeamMember`,
   `${baseUrl}/teamMember/getTeamMemberById/:id`,
+  `${baseUrl}/contactUs/getAllContactUs`,
 ]
 export const nonAdminRoutes = [
   '/favicon.ico',
@@ -153,6 +154,8 @@ export const nonAdminRoutes = [
 
   `${baseUrl}/teamMember/getAllTeamMember`,
   `${baseUrl}/teamMember/getTeamMemberById/:id`,
+
+  `${baseUrl}/contactUs/getAllContactUs`,
 ]
 export const cachedEndpoints = [
   '/favicon.ico',
