@@ -11,6 +11,9 @@ import { documentModel } from '../../schema/document/document.schema'
 import { galleryModel } from '../../schema/gallery/gallery.schema'
 import { socialLinkAndCommonImageModel } from '../../schema/socialLinkAndCommonImage/socialLinkAndCommonImage.schema'
 import { optimizeImagesByModelService } from '../../services/optimizeImages/optimizeImagePathByModel.service'
+import { downloadImagesByFolderService } from '../../services/optimizeImages/downloadImagesByFolder.service'
+import path from 'path'
+import fs from 'fs'
 
 const databaseModels = {
   news: newsModel,
@@ -59,6 +62,41 @@ export const optimizeImagePathInDatabaseController = async (
       return new ErrorResponse(404, 'Model not found').send(res)
     }
     const result = await optimizeImagesByModelService(databaseModel)
+    if (result instanceof SuccessResponse && result.statusCode === 1) {
+      return new SuccessResponse(result.message, result.data).send(res)
+    } else if (result instanceof ErrorResponse) {
+      return new ErrorResponse(
+        result.errorCode as keyof typeof ErrorCodes,
+        result.error,
+      ).send(res)
+    }
+  } catch (error) {
+    return new ErrorResponse(500, error).send(res)
+  }
+}
+export const downloadUploadedFileController = async (
+  req: Request,
+  res: Response,
+) => {
+  try {
+    const folderKey = req.params.folderKey
+    const folderName =
+      uploadSubFolder[folderKey as keyof typeof uploadSubFolder]
+
+    if (!folderName) {
+      return new ErrorResponse(404, 'Check folder key').send(res)
+    }
+
+    const targetDir = path.join(__dirname, '../../../uploads', folderName)
+
+    if (!fs.existsSync(targetDir)) {
+      return new ErrorResponse(404, 'Requested folder not found').send(res)
+    }
+    const argObj = {
+      targetDir,
+      folderName,
+    }
+    const result = await downloadImagesByFolderService(argObj, res)
     if (result instanceof SuccessResponse && result.statusCode === 1) {
       return new SuccessResponse(result.message, result.data).send(res)
     } else if (result instanceof ErrorResponse) {
