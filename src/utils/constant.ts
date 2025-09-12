@@ -59,12 +59,12 @@ export const environmentConfig: Record<EnvKey, EnvironmentConfig> = {
   },
   test: {
     corsEndpoints: ['https://nihidafrontend.onrender.com'],
-    serverURL: 'https://nihidaapi.onrender.com',
+    serverURL: 'https://nihidaserver.onrender.com/',
     databaseConnectionString: testDbURL,
   },
   prod: {
     corsEndpoints: ['https://nihida.org.in'],
-    serverURL: 'https://nihidaapi.onrender.com',
+    serverURL: 'https://nihidaserver.onrender.com/',
     databaseConnectionString: prodDbURL,
   },
 }
