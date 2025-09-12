@@ -1,6 +1,8 @@
+import { deleteFromR2 } from '../../config/cloudfare'
 import { partnerModel } from '../../schema/partner/partner.schema'
 import { IDeletePartner } from '../../types/partner/partner.types'
 import { sendErrorData, sendSuccessData } from '../../utils/apiResponse'
+import { enableCloudFareStorage } from '../../utils/constant'
 import { deleteFileIfExists } from '../../utils/utils'
 
 export const deletePartnerService = async (data: IDeletePartner) => {
@@ -27,7 +29,11 @@ export const deletePartnerService = async (data: IDeletePartner) => {
     if (files && files.length > 0) {
       const localPaths = files.map((file) => file.serverFilePath)
       for (const path of localPaths) {
-        deleteFileIfExists(path)
+        if (enableCloudFareStorage == 'false') {
+          deleteFileIfExists(path)
+        } else {
+          deleteFromR2(path)
+        }
       }
     }
     return sendSuccessData('Partner deleted successfully', partner)

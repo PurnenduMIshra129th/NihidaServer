@@ -3,14 +3,17 @@ import multer = require('multer')
 import { NextFunction, Request, Response } from 'express'
 import { ErrorResponse } from '../utils/apiResponse'
 import { ensureUploadDirExists } from '../utils/uploadDirectory'
-import { uploadDir } from '../utils/constant'
+import { enableCloudFareStorage, uploadDir } from '../utils/constant'
 import path = require('path')
 import sharp = require('sharp')
 import fs from 'fs'
 import { v4 as uuidv4 } from 'uuid'
 import { constructImagePath } from '../utils/utils'
+import { uploadToR2 } from '../config/cloudfare'
 
-ensureUploadDirExists()
+if (enableCloudFareStorage == 'false') {
+  ensureUploadDirExists()
+}
 
 type AllowedFileType = 'image' | 'pdf' | 'any'
 const createFileFilter = (type: AllowedFileType) => {
@@ -59,7 +62,7 @@ const uploadMiddleware = (
   allowedFileTypes: AllowedFileType = 'image',
   fieldName: string = 'files',
 ) => {
-  return (req: Request, res: Response, next: NextFunction) => {
+  return async (req: Request, res: Response, next: NextFunction) => {
     try {
       const storage = multer.memoryStorage()
       let upload
@@ -103,13 +106,20 @@ const uploadMiddleware = (
 
           if (isMultiple && req.files) {
             const processedFiles = await Promise.all(
-              (req.files as Express.Multer.File[]).map((file) =>
-                processFile(file, dynamicUploadDir),
-              ),
+              (req.files as Express.Multer.File[]).map((file) => {
+                if (enableCloudFareStorage == 'true') {
+                  return uploadToR2(file, subFolder)
+                } else {
+                  return processFile(file, dynamicUploadDir)
+                }
+              }),
             )
             ;(req as any).files = processedFiles
           } else if (req.file) {
-            const processedFile = await processFile(req.file, dynamicUploadDir)
+            const processedFile =
+              enableCloudFareStorage == 'true'
+                ? await uploadToR2(req.file, subFolder)
+                : await processFile(req.file, dynamicUploadDir)
             ;(req as any).file = processedFile
           }
 

@@ -1,6 +1,8 @@
+import { deleteFromR2 } from '../../config/cloudfare'
 import { galleryModel } from '../../schema/gallery/gallery.schema'
 import { IDeleteGallery } from '../../types/gallery/gallery.type'
 import { sendErrorData, sendSuccessData } from '../../utils/apiResponse'
+import { enableCloudFareStorage } from '../../utils/constant'
 import { deleteFileIfExists } from '../../utils/utils'
 
 export const deleteGalleryService = async (data: IDeleteGallery) => {
@@ -27,7 +29,11 @@ export const deleteGalleryService = async (data: IDeleteGallery) => {
     if (files && files.length > 0) {
       const localPaths = files.map((file) => file.serverFilePath)
       for (const path of localPaths) {
-        deleteFileIfExists(path)
+        if (enableCloudFareStorage == 'false') {
+          deleteFileIfExists(path)
+        } else {
+          deleteFromR2(path)
+        }
       }
     }
     return sendSuccessData('Gallery deleted successfully', gallery)

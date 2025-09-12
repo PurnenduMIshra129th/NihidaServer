@@ -107,6 +107,17 @@ export const getImageMetadata = async (filePath: string) => {
     resolution: `${width}x${height}`,
   }
 }
+export const extractR2KeyFromUrl = (url: string): string => {
+  try {
+    const parsed = new URL(url)
+    const key = parsed.pathname.replace(/^\/+/, '') // remove leading slashes
+    if (!key) throw new Error('Key extraction failed: empty path')
+    return key
+  } catch (err) {
+    console.error('Error extracting R2 key:', err)
+    return ''
+  }
+}
 
 export const nonTokenizedRoutes = [
   '/favicon.ico',

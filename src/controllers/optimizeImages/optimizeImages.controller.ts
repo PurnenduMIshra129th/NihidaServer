@@ -14,6 +14,9 @@ import { optimizeImagesByModelService } from '../../services/optimizeImages/opti
 import { downloadImagesByFolderService } from '../../services/optimizeImages/downloadImagesByFolder.service'
 import path from 'path'
 import fs from 'fs'
+import { changeToCloudfarePublicPathService } from '../../services/optimizeImages/changeToCloudfarePublicPath.service'
+import { teamMemberModel } from '../../schema/teamMember/teamMember.schema'
+import { partnerModel } from '../../schema/partner/partner.schema'
 
 const databaseModels = {
   news: newsModel,
@@ -23,6 +26,8 @@ const databaseModels = {
   document: documentModel,
   gallery: galleryModel,
   socialLinkAndCommonImage: socialLinkAndCommonImageModel,
+  teamMember: teamMemberModel,
+  partner: partnerModel,
 }
 export const optimizeImageFileInServerController = async (
   req: Request,
@@ -74,6 +79,32 @@ export const optimizeImagePathInDatabaseController = async (
     return new ErrorResponse(500, error).send(res)
   }
 }
+export const changeToCloudfarePublicPathController = async (
+  req: Request,
+  res: Response,
+) => {
+  try {
+    const modelKey = req.params.folderKey
+    const databaseModel =
+      databaseModels[modelKey as keyof typeof databaseModels]
+
+    if (!databaseModel) {
+      return new ErrorResponse(404, 'Model not found').send(res)
+    }
+    const result = await changeToCloudfarePublicPathService(databaseModel)
+    if (result instanceof SuccessResponse && result.statusCode === 1) {
+      return new SuccessResponse(result.message, result.data).send(res)
+    } else if (result instanceof ErrorResponse) {
+      return new ErrorResponse(
+        result.errorCode as keyof typeof ErrorCodes,
+        result.error,
+      ).send(res)
+    }
+  } catch (error) {
+    return new ErrorResponse(500, error).send(res)
+  }
+}
+
 export const downloadUploadedFileController = async (
   req: Request,
   res: Response,

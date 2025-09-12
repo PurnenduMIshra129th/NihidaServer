@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import {
+  changeToCloudfarePublicPathController,
   downloadUploadedFileController,
   optimizeImageFileInServerController,
   optimizeImagePathInDatabaseController,
@@ -17,6 +18,10 @@ optimizeImageRouter.get(
 optimizeImageRouter.get(
   '/download-uploads/:folderKey',
   downloadUploadedFileController,
+)
+optimizeImageRouter.get(
+  '/changeToCloudfarePublicPath/:folderKey',
+  changeToCloudfarePublicPathController,
 )
 
 export default optimizeImageRouter

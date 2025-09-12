@@ -3,6 +3,8 @@ import { ErrorResponse, SuccessResponse } from '../../utils/apiResponse'
 import { deleteFileIfExists } from '../../utils/utils'
 import mongoose from 'mongoose'
 import { IFile } from '../../types/utils/utils.type'
+import { enableCloudFareStorage } from '../../utils/constant'
+import { deleteFromR2 } from '../../config/cloudfare'
 
 export const uploadController =
   (model: mongoose.Model<any>, isMultiple: boolean = true) =>
@@ -44,11 +46,11 @@ export const uploadController =
       const fileArray = Array.isArray(files) ? files : [files]
 
       const fileDetails = fileArray.map((file: IFile) => ({
-        fileName: file.fileName,
-        originalName: file.originalName,
-        mimeType: file.mimeType,
-        serverFilePath: file.serverFilePath,
-        publicFilePath: file.publicFilePath,
+        fileName: file?.fileName || '',
+        originalName: file?.originalName || '',
+        mimeType: file?.mimeType || '',
+        serverFilePath: file?.serverFilePath || '',
+        publicFilePath: file?.publicFilePath || '',
       }))
       existingDoc.files = [...(existingDoc.files || []), ...fileDetails]
       await existingDoc.save()
@@ -123,7 +125,11 @@ export const deleteUploadFileController =
 
       // Delete from server
       if (fileToDelete.serverFilePath) {
-        deleteFileIfExists(fileToDelete.serverFilePath)
+        if (enableCloudFareStorage == 'false') {
+          deleteFileIfExists(fileToDelete.serverFilePath)
+        } else {
+          deleteFromR2(fileToDelete.serverFilePath)
+        }
       }
 
       // Remove from DB
@@ -215,8 +221,13 @@ export const updateUploadFileController =
 
       // Delete previous file from server
       const oldFilePath = doc.files[fileIndex].serverFilePath
-      if (oldFilePath) deleteFileIfExists(oldFilePath)
-
+      if (oldFilePath) {
+        if (enableCloudFareStorage == 'false') {
+          deleteFileIfExists(oldFilePath)
+        } else {
+          deleteFromR2(oldFilePath)
+        }
+      }
       // Replace in DB
       doc.files[fileIndex] = newFileMeta
       await doc.save()

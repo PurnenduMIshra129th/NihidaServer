@@ -1,6 +1,8 @@
+import { deleteFromR2 } from '../../config/cloudfare'
 import { teamMemberModel } from '../../schema/teamMember/teamMember.schema'
 import { IDeleteTeamMember } from '../../types/teamMember/teamMember.type'
 import { sendErrorData, sendSuccessData } from '../../utils/apiResponse'
+import { enableCloudFareStorage } from '../../utils/constant'
 import { deleteFileIfExists } from '../../utils/utils'
 
 export const deleteTeamMemberService = async (data: IDeleteTeamMember) => {
@@ -27,7 +29,11 @@ export const deleteTeamMemberService = async (data: IDeleteTeamMember) => {
     if (files && files.length > 0) {
       const localPaths = files.map((file) => file.serverFilePath)
       for (const path of localPaths) {
-        deleteFileIfExists(path)
+        if (enableCloudFareStorage == 'false') {
+          deleteFileIfExists(path)
+        } else {
+          deleteFromR2(path)
+        }
       }
     }
     return sendSuccessData('TeamMember deleted successfully', teamMember)

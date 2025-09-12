@@ -23,7 +23,7 @@ export const authMiddleware = (
 ) => {
   try {
     const { path } = req
-    if (!isTurnOnTokenization) return next()
+    if (isTurnOnTokenization == 'false') return next()
     if (nonTokenizedRoutes.some((route) => doesRouteMatch(route, path))) {
       return next()
     }

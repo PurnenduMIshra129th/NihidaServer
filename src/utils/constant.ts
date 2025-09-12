@@ -13,12 +13,22 @@ export const adminPassword = process.env.ADMIN_PASSWORD || ''
 export const jwtExpiration = '1h'
 export const currentEnv = process.env.NODE_ENV || 'local'
 export const redisURL = process.env.REDIS_URL || 'redis://127.0.0.1:6379'
-export const isTurnOnTokenization = true
-export const isTurnOnAdminControl = true
+export const isTurnOnTokenization = process.env.TURN_ON_TOKENIZATION || 'true'
+export const isTurnOnAdminControl = process.env.TURN_ON_ADMIN_CONTROL || 'true'
+export const enableCloudFareStorage =
+  process.env.ENABLE_CLOUDFARE_STORAGE || 'false'
+export const cloudfareConfig = {
+  R2_ACCOUNT_ID: process.env.R2_ACCOUNT_ID || '',
+  R2_ACCESS_KEY_ID: process.env.R2_ACCESS_KEY_ID || '',
+  R2_SECRET_ACCESS_KEY: process.env.R2_SECRET_ACCESS_KEY || '',
+  R2_BUCKET_NAME: process.env.R2_BUCKET_NAME || '',
+  R2_PUBLIC_URL: process.env.R2_PUBLIC_URL || '',
+}
 
 export const port = 3000
 export const baseUrl = '/NIHIDA'
 export const uploadsFolder = '/uploads/'
+export const testUploadsFolder = '/testUploads/'
 export const uploadDir = path.join(__dirname, `../../${uploadsFolder}`)
 export const uploadSubFolder = {
   newsDir: `/newsUploads/`,

@@ -10,7 +10,7 @@ export const adminMiddleware = (
   next: NextFunction,
 ) => {
   try {
-    if (!isTurnOnAdminControl) return next()
+    if (isTurnOnAdminControl == 'false') return next()
     const isNonAdminRoute = nonAdminRoutes.some((routePattern) =>
       matchRoute(routePattern, req.path),
     )

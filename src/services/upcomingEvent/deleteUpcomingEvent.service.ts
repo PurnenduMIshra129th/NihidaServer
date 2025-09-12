@@ -1,6 +1,8 @@
+import { deleteFromR2 } from '../../config/cloudfare'
 import { upcomingEventModel } from '../../schema/upcomingEvent/upcomingEvent.schema'
 import { IDeleteUpcomingEvent } from '../../types/upcomingEvent/upcomingEvent.type'
 import { sendErrorData, sendSuccessData } from '../../utils/apiResponse'
+import { enableCloudFareStorage } from '../../utils/constant'
 import { deleteFileIfExists } from '../../utils/utils'
 
 export const deleteUpcomingEventService = async (
@@ -29,7 +31,11 @@ export const deleteUpcomingEventService = async (
     if (files && files.length > 0) {
       const localPaths = files.map((file) => file.serverFilePath)
       for (const path of localPaths) {
-        deleteFileIfExists(path)
+        if (enableCloudFareStorage == 'false') {
+          deleteFileIfExists(path)
+        } else {
+          deleteFromR2(path)
+        }
       }
     }
     return sendSuccessData('UpcomingEvent deleted successfully', upcomingEvent)
