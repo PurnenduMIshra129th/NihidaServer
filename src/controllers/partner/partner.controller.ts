@@ -9,31 +9,9 @@ import { updatePartnerService } from '../../services/partner/updatePartner.servi
 
 export const createPartnerController = async (req: Request, res: Response) => {
   try {
-    const {
-      name,
-      description,
-      website,
-      type,
-      focusAreas,
-      visibility,
-      contactPerson,
-      partnershipStart,
-      partnershipEnd,
-      tags,
-      createdBy,
-    } = req?.body
+    const { name } = req?.body
     const argObj = {
       name,
-      description,
-      website,
-      type,
-      focusAreas,
-      visibility,
-      contactPerson,
-      partnershipStart,
-      partnershipEnd,
-      tags,
-      createdBy,
     }
     const result = await createPartnerService(argObj)
     if (result instanceof SuccessResponse && result.statusCode === 1) {
@@ -55,33 +33,11 @@ export const updatePartnerController = async (req: Request, res: Response) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return new ErrorResponse(400, 'Invalid partner ID format').send(res)
     }
-    const {
-      name,
-      description,
-      website,
-      type,
-      focusAreas,
-      visibility,
-      contactPerson,
-      partnershipStart,
-      partnershipEnd,
-      tags,
-      createdBy,
-    } = req.body
+    const { name } = req.body
 
     const argObj = {
       id,
       name,
-      description,
-      website,
-      type,
-      focusAreas,
-      visibility,
-      contactPerson,
-      partnershipStart,
-      partnershipEnd,
-      tags,
-      createdBy,
     }
     const result = await updatePartnerService(argObj)
     if (result instanceof SuccessResponse && result.statusCode === 1) {
