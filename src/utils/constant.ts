@@ -17,12 +17,27 @@ export const isTurnOnTokenization = process.env.TURN_ON_TOKENIZATION || 'true'
 export const isTurnOnAdminControl = process.env.TURN_ON_ADMIN_CONTROL || 'true'
 export const enableCloudFareStorage =
   process.env.ENABLE_CLOUDFARE_STORAGE || 'false'
+
 export const cloudfareConfig = {
   R2_ACCOUNT_ID: process.env.R2_ACCOUNT_ID || '',
   R2_ACCESS_KEY_ID: process.env.R2_ACCESS_KEY_ID || '',
   R2_SECRET_ACCESS_KEY: process.env.R2_SECRET_ACCESS_KEY || '',
   R2_BUCKET_NAME: process.env.R2_BUCKET_NAME || '',
   R2_PUBLIC_URL: process.env.R2_PUBLIC_URL || '',
+}
+export const stripeConfig = {
+  stripeSecretKey: process.env.STRIPE_SECRET_KEY || '',
+  stripePublishableKey: process.env.STRIPE_PUBLISHABLE_KEY || '',
+  stripeWebhookSecretKey: process.env.STRIPE_WEBHOOK_SECRET || '',
+}
+
+export const mailConfig = {
+  emailProvider: process.env.EMAIL_PROVIDER || 'gmail',
+  emailUser: process.env.EMAIL_USER || '',
+  emailAppPassword: process.env.EMAIL_APP_PASSWORD || '',
+  fromName: process.env.FROM_NAME || 'NIHIDA',
+  businessName: process.env.BUSINESS_NAME || 'NIHIDA',
+  contactEmail: process.env.CONTACT_EMAIL || '',
 }
 
 export const port = 3000
@@ -58,13 +73,13 @@ export const environmentConfig: Record<EnvKey, EnvironmentConfig> = {
     databaseConnectionString: localDbURL,
   },
   test: {
-    corsEndpoints: ['https://nihidafrontend.onrender.com'],
-    serverURL: 'https://nihidaserver.onrender.com/',
+    corsEndpoints: ['https://nihidafrontend-ew7h.onrender.com'],
+    serverURL: 'https://nihidaserver-9er4.onrender.com/',
     databaseConnectionString: testDbURL,
   },
   prod: {
     corsEndpoints: ['https://nihida.org.in'],
-    serverURL: 'https://nihidaserver.onrender.com/',
+    serverURL: 'https://nihidaserver-9er4.onrender.com/',
     databaseConnectionString: prodDbURL,
   },
 }

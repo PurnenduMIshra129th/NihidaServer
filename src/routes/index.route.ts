@@ -12,6 +12,8 @@ import optimizeImageRouter from './optimizeImages/optmizeImages.route'
 import teamMemberRouter from './teamMember/teamMember.route'
 import partnerRouter from './partner/partner.route'
 import contactUsRouter from './contactUs/contactUs.route'
+import paymentRouter from './payment/payment.route'
+import emailRouter from './email/email.route'
 
 const indexRouter = Router()
 indexRouter.use('/upload', uploadRouter)
@@ -27,5 +29,7 @@ indexRouter.use('/optimize', optimizeImageRouter)
 indexRouter.use('/teamMember', teamMemberRouter)
 indexRouter.use('/partner', partnerRouter)
 indexRouter.use('/contactUs', contactUsRouter)
+indexRouter.use('/payment', paymentRouter)
+indexRouter.use('/sendMail', emailRouter)
 
 export default indexRouter
