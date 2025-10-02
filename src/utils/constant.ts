@@ -78,7 +78,7 @@ export const environmentConfig: Record<EnvKey, EnvironmentConfig> = {
     databaseConnectionString: testDbURL,
   },
   prod: {
-    corsEndpoints: ['https://nihida.org.in'],
+    corsEndpoints: ['https://www.nihida.org.in'],
     serverURL: 'https://nihidaserver-9er4.onrender.com/',
     databaseConnectionString: prodDbURL,
   },
